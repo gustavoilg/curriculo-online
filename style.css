@@ -148,3 +148,75 @@ button.gerar:hover {
     opacity: 0.9;
     transform: translateY(-2px);
 }
+/* === PREVIEW A4 === */
+
+#preview-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+    z-index: 999;
+}
+
+#preview-box {
+    width: 21cm;
+    min-height: 29.7cm;
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.25);
+    position: relative;
+}
+
+#preview-box button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #ef4444;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.cv-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.cv-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #1f2937;
+}
+
+.cv-header p {
+    font-size: 14px;
+    color: #4b5563;
+}
+
+.cv-section {
+    margin-top: 22px;
+}
+
+.cv-section h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #1f2937;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 4px;
+}
+
+.cv-section p {
+    font-size: 15px;
+    color: #374151;
+    line-height: 1.5;
+}
