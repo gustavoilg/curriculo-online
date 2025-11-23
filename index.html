@@ -5,52 +5,95 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Gerador de Currículo — Modelo Premium</title>
 
-  <link rel="stylesheet" href="styles.css">
+  <!-- IMPORTANTE: Tudo embutido para evitar problemas de paths -->
+  <style>
+    /* reset & base */
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,Helvetica,sans-serif}
+    body{background:linear-gradient(135deg,#eef2ff,#f0f9ff 60%,#fffaf0);padding:28px;display:flex;justify-content:center}
+    .container{width:100%;max-width:920px;background:#fff;padding:26px;border-radius:14px;box-shadow:0 12px 40px rgba(2,6,23,0.08)}
+    .titulo-principal{font-size:26px;font-weight:800;text-align:center;background:linear-gradient(90deg,#4f46e5,#9333ea);-webkit-background-clip:text;color:transparent}
+    .subtitulo{text-align:center;color:#6b7280;margin-bottom:16px}
+
+    .section{background:#fbfdff;border:1px solid #eef2ff;padding:14px;border-radius:12px;margin-bottom:12px}
+    .section-title{font-size:15px;font-weight:700;color:#1f2937;margin-bottom:10px}
+    input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid #e6eef9;background:#fff;margin-bottom:10px;font-size:14px}
+    textarea{resize:vertical;min-height:80px}
+
+    .add-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#eef2ff,#f7fbff);border:1px solid #dbeafe;color:#1e3a8a;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600}
+    .btn-primary{background:linear-gradient(90deg,#4f46e5,#7c3aed);color:#fff;border:none;padding:12px 16px;border-radius:10px;cursor:pointer;font-weight:700}
+    .btn-secondary{background:#eef2ff;border:1px solid #c7d2fe;color:#1e3a8a;padding:10px 14px;border-radius:10px;cursor:pointer}
+
+    /* preview modal */
+    .preview-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);justify-content:center;align-items:flex-start;padding:28px;z-index:1200}
+    .preview-wrapper{position:relative;transform:scale(0.62);transform-origin:top center}
+    .close-preview{position:absolute;top:-56px;right:0;font-size:42px;color:#fff;background:transparent;border:none;cursor:pointer}
+
+    /* A4 sheet */
+    .a4-sheet{width:794px;height:1123px;background:#fff;border-radius:6px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 10px 40px rgba(2,6,23,0.15)}
+    .topbar{height:120px;background:linear-gradient(90deg,#365b90,#2a4770);position:relative}
+    .sheet-inner{display:flex;flex:1}
+    .left-col{width:240px;padding:22px;background:#fafbfd;border-right:1px solid #eef2ff;display:flex;flex-direction:column;gap:16px}
+    .right-col{flex:1;padding:28px 36px;overflow:auto}
+    .photo{width:120px;height:120px;border-radius:999px;background:#fff;border:4px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#334155;margin-bottom:4px}
+    .pv-block h4{font-size:13px;color:#0f172a;margin-bottom:8px;border-bottom:1px solid #e6eef9;padding-bottom:6px}
+    .pv-block p{font-size:13px;color:#475569;line-height:1.45}
+    #pv_nome{font-size:30px;font-weight:800;color:#0f172a;margin-bottom:6px}
+    .pv-cargo{font-size:13px;color:#64748b;margin-bottom:12px}
+    .pv-section{margin-top:12px}
+    .pv-section h3{font-size:14px;color:#0f172a;border-bottom:1px solid #e6eef9;padding-bottom:6px;margin-bottom:8px}
+    .pv-section p{font-size:14px;color:#334155;line-height:1.5;margin-bottom:6px}
+    .pv-item{margin-bottom:10px}
+
+    .preview-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:12px}
+    .preview-actions button{min-width:160px}
+
+    /* ad modal */
+    .ad-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(3px);justify-content:center;align-items:center;z-index:1300}
+    .ad-card{width:880px;max-width:96%;background:#fff;padding:18px;border-radius:10px;box-shadow:0 10px 40px rgba(2,6,23,0.15);position:relative}
+    .close-ad{position:absolute;top:12px;right:12px;background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer}
+
+    @media(max-width:1000px){ .preview-wrapper{transform:scale(0.46)} .a4-sheet{transform:translateY(0)} }
+    @media(max-width:640px){ body{padding:18px} .container{padding:18px} }
+  </style>
+
+  <!-- libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
+
 <body>
   <div class="container">
     <h1 class="titulo-principal">Gerador de Currículo Profissional</h1>
-    <p class="subtitulo">Preencha abaixo → Clique em "Gerar Meu Currículo" → visualize em A4 → baixe após assistir o anúncio.</p>
+    <p class="subtitulo">Preencha os campos e clique em Gerar Meu Currículo</p>
 
-    <!-- Seções do formulário (IDs devem bater com o preview.js) -->
     <section class="section">
-      <h2 class="section-title"><span class="num">1.</span> DADOS PESSOAIS</h2>
-      <label>Nome Completo</label>
-      <input id="nome" type="text" placeholder="João da Silva">
-
-      <label>Profissão / Cargo</label>
-      <input id="profissao" type="text" placeholder="Engenheiro Civil">
-
-      <label>E-mail</label>
-      <input id="email" type="email" placeholder="seu@email.com">
-
-      <label>Telefone</label>
-      <input id="telefone" type="text" placeholder="(11) 9XXXX-XXXX">
-
-      <label>Endereço (Cidade/Estado)</label>
-      <input id="endereco" type="text" placeholder="São Paulo / SP">
+      <div class="section-title">DADOS PESSOAIS</div>
+      <label>Nome</label><input id="nome" placeholder="João da Silva">
+      <label>Profissão</label><input id="profissao" placeholder="Engenheiro Civil">
+      <label>E-mail</label><input id="email" placeholder="seu@email.com">
+      <label>Telefone</label><input id="telefone" placeholder="(11) 9XXXX-XXXX">
+      <label>Endereço</label><input id="endereco" placeholder="Cidade / Estado">
     </section>
 
     <section class="section">
-      <h2 class="section-title"><span class="num">2.</span> OBJETIVO / RESUMO</h2>
-      <textarea id="objetivo" rows="4" placeholder="Resumo profissional — exemplo: Engenheiro civil com..."></textarea>
+      <div class="section-title">OBJETIVO / RESUMO</div>
+      <textarea id="objetivo" placeholder="Resumo profissional"></textarea>
     </section>
 
     <section class="section">
-      <h2 class="section-title"><span class="num">3.</span> FORMAÇÃO ACADÊMICA</h2>
-      <!-- Campos iniciais; o usuário pode adicionar mais com JS -->
+      <div class="section-title">FORMAÇÃO ACADÊMICA</div>
       <div id="formacoesList">
         <div class="repeat">
           <input class="formacao-curso" placeholder="Curso (ex: Engenharia Civil)">
           <input class="formacao-instituicao" placeholder="Instituição">
-          <input class="formacao-ano" placeholder="Ano (ex: 2018)" type="text">
+          <input class="formacao-ano" placeholder="Ano (ex: 2018)">
         </div>
       </div>
       <div class="add-btn" id="addFormacao">+ Adicionar outro curso</div>
     </section>
 
     <section class="section">
-      <h2 class="section-title"><span class="num">4.</span> EXPERIÊNCIA</h2>
+      <div class="section-title">EXPERIÊNCIA</div>
       <div id="experienciasList">
         <div class="repeat">
           <input class="exp-empresa" placeholder="Empresa">
@@ -62,8 +105,8 @@
     </section>
 
     <section class="section">
-      <h2 class="section-title"><span class="num">5.</span> HABILIDADES / IDIOMAS</h2>
-      <textarea id="habilidades" rows="3" placeholder="Ex: AutoCAD, Revit, MS Project / Idiomas"></textarea>
+      <div class="section-title">HABILIDADES / IDIOMAS</div>
+      <textarea id="habilidades" placeholder="Habilidades e idiomas"></textarea>
     </section>
 
     <div style="display:flex;gap:12px;margin-top:12px;">
@@ -76,15 +119,11 @@
     <div class="preview-wrapper">
       <button id="closePreview" class="close-preview" title="Fechar">✕</button>
 
-      <!-- A4 sheet -->
       <div class="a4-sheet" id="a4Sheet">
-        <!-- top bar -->
         <div class="topbar"></div>
-
         <div class="sheet-inner">
-          <!-- left column -->
           <aside class="left-col">
-            <div class="photo" id="pv_foto">Foto</div>
+            <div class="photo" id="pv_foto">FOTO</div>
 
             <div class="pv-block">
               <h4>CONTATO</h4>
@@ -107,7 +146,6 @@
             </div>
           </aside>
 
-          <!-- right column -->
           <main class="right-col">
             <header class="pv-header">
               <h1 id="pv_nome">Nome Completo</h1>
@@ -129,8 +167,8 @@
               <div id="pv_formacoes"></div>
             </section>
           </main>
-        </div> <!-- sheet-inner -->
-      </div> <!-- a4-sheet -->
+        </div>
+      </div>
 
       <div class="preview-actions">
         <button id="watchAd" class="btn-secondary">Assistir anúncio (simulado)</button>
@@ -139,7 +177,7 @@
     </div>
   </div>
 
-  <!-- ANÚNCIO SIMULADO (modal simples com YouTube) -->
+  <!-- AD modal -->
   <div id="adModal" class="ad-modal" aria-hidden="true">
     <div class="ad-card">
       <button id="closeAd" class="close-ad">✕</button>
@@ -148,11 +186,134 @@
     </div>
   </div>
 
-  <!-- bibliotecas necessárias -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+  // Inline JS - tudo em um arquivo para garantir funcionamento
+  (function(){
 
-  <!-- preview + pdf script -->
-  <script src="preview.js"></script>
+    // helpers
+    function el(tag, cls, txt){ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!==undefined) e.innerText=txt; return e; }
+
+    // add dynamic blocks
+    document.getElementById('addFormacao').addEventListener('click', function(){
+      const box=document.createElement('div'); box.className='repeat';
+      box.innerHTML = '<input class="formacao-curso" placeholder="Curso (ex: Engenharia Civil)"><input class="formacao-instituicao" placeholder="Instituição"><input class="formacao-ano" placeholder="Ano (ex: 2018)">';
+      document.getElementById('formacoesList').appendChild(box);
+    });
+    document.getElementById('addExperiencia').addEventListener('click', function(){
+      const box=document.createElement('div'); box.className='repeat';
+      box.innerHTML = '<input class="exp-empresa" placeholder="Empresa"><input class="exp-cargo" placeholder="Cargo"><textarea class="exp-desc" rows="3" placeholder="Descrição / responsabilidades"></textarea>';
+      document.getElementById('experienciasList').appendChild(box);
+    });
+
+    // open preview
+    document.getElementById('btnGerar').addEventListener('click', function(){
+      preencherPreview();
+      document.getElementById('previewModal').style.display = 'flex';
+    });
+    document.getElementById('closePreview').addEventListener('click', function(){ document.getElementById('previewModal').style.display = 'none'; });
+
+    function preencherPreview(){
+      const nome = document.getElementById('nome')?.value || '';
+      const profissao = document.getElementById('profissao')?.value || '';
+      const email = document.getElementById('email')?.value || '';
+      const telefone = document.getElementById('telefone')?.value || '';
+      const endereco = document.getElementById('endereco')?.value || '';
+      const objetivo = document.getElementById('objetivo')?.value || '';
+      const habilidades = document.getElementById('habilidades')?.value || '';
+
+      document.getElementById('pv_nome').innerText = nome || 'Seu Nome Aqui';
+      document.getElementById('pv_cargo').innerText = profissao || '';
+      document.getElementById('pv_objetivo').innerText = objetivo || '';
+      document.getElementById('pv_habilidades').innerText = habilidades || '—';
+
+      // contato
+      const contatoHtml = [];
+      if(telefone) contatoHtml.push('☎ ' + telefone);
+      if(email) contatoHtml.push('✉ ' + email);
+      if(endereco) contatoHtml.push('📍 ' + endereco);
+      document.getElementById('pv_contato').innerHTML = contatoHtml.join('<br>');
+
+      // formacoes
+      const formacoes = document.querySelectorAll('#formacoesList .repeat');
+      const contForm = document.getElementById('pv_formacoes'); contForm.innerHTML='';
+      formacoes.forEach(f=>{
+        const curso = f.querySelector('.formacao-curso')?.value || '';
+        const inst = f.querySelector('.formacao-instituicao')?.value || '';
+        const ano = f.querySelector('.formacao-ano')?.value || '';
+        if(curso||inst||ano){
+          const div = el('div','pv-item');
+          div.innerHTML = '<strong>'+curso+'</strong><div style="font-size:13px;color:#475569">'+inst+(ano?(' • '+ano):'')+'</div>';
+          contForm.appendChild(div);
+        }
+      });
+
+      // experiencias
+      const exps = document.querySelectorAll('#experienciasList .repeat');
+      const contExp = document.getElementById('pv_experiencias'); contExp.innerHTML='';
+      exps.forEach(e=>{
+        const emp = e.querySelector('.exp-empresa')?.value || '';
+        const cargo = e.querySelector('.exp-cargo')?.value || '';
+        const desc = e.querySelector('.exp-desc')?.value || '';
+        if(emp||cargo||desc){
+          const c = el('div','pv-item');
+          c.innerHTML = '<strong>'+ (cargo ? cargo + ' — ' + (emp||'') : emp) +'</strong><div style="font-size:13px;color:#475569;margin-top:6px">'+(desc?desc.replace(/\n/g,'<br>'):'')+'</div>';
+          contExp.appendChild(c);
+        }
+      });
+
+      // idiomas (simple fallback)
+      document.getElementById('pv_idiomas').innerText = 'Português: Nativo';
+    }
+
+    // AD simulation + PDF enable
+    let adWatched=false, player=null;
+    function loadYT(){ if(window.YT) return; const s=document.createElement('script'); s.src='https://www.youtube.com/iframe_api'; document.head.appendChild(s); }
+
+    document.getElementById('watchAd').addEventListener('click', function(){
+      loadYT();
+      document.getElementById('adModal').style.display='flex';
+      // create player
+      if(!player && window.YT && window.YT.Player){
+        player = new YT.Player('player', {height:'360',width:'100%',videoId:'YE7VzlLtp-4', events:{'onStateChange': function(e){ if(e.data===YT.PlayerState.ENDED){ adFinished(); }}}});
+      } else {
+        // fallback: simulate ad -> enable after 6s
+        setTimeout(adFinished,6000);
+      }
+    });
+    document.getElementById('closeAd').addEventListener('click', function(){ document.getElementById('adModal').style.display='none'; try{ player&&player.stopVideo(); }catch(e){} });
+
+    function adFinished(){ adWatched=true; document.getElementById('adModal').style.display='none'; document.getElementById('downloadPdf').disabled=false; }
+
+    document.getElementById('adDone').addEventListener('click', adFinished);
+
+    // download PDF
+    document.getElementById('downloadPdf').addEventListener('click', async function(){
+      if(!adWatched){ alert('Assista ao anúncio antes de baixar.'); return; }
+      const a4 = document.getElementById('a4Sheet');
+      const opts = {scale:2,useCORS:true, logging:false};
+      try{
+        const canvas = await html2canvas(a4, opts);
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p','pt','a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const ratio = Math.min(pdfWidth/canvas.width, pdfHeight/canvas.height);
+        const w = canvas.width*ratio;
+        const h = canvas.height*ratio;
+        const x = (pdfWidth-w)/2;
+        const y = 20;
+        pdf.addImage(imgData,'PNG',x,y,w,h);
+        pdf.save((document.getElementById('nome').value || 'curriculo') + '.pdf');
+      }catch(err){
+        alert('Erro ao gerar PDF. Se estiver testando localmente, tente abrir via um servidor local. Erro: '+err.message);
+      }
+    });
+
+    // ensure YT script loaded for real usage
+    (function(){ const t=document.createElement('script'); t.src='https://www.youtube.com/iframe_api'; document.head.appendChild(t); })();
+
+  })();
+  </script>
 </body>
 </html>
