@@ -257,3 +257,75 @@ button.gerar:hover {
     border-radius: 4px;
     font-family: Arial, sans-serif;
 }
+/* --- MODAL DE PREVIEW --- */
+.preview-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.preview-content {
+    position: relative;
+    transform: scale(0.55);
+    transform-origin: top center;
+}
+
+.close-preview {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    font-size: 45px;
+    color: white;
+    cursor: pointer;
+}
+
+/* --- FOLHA A4 --- */
+.a4-sheet {
+    width: 794px;
+    height: 1123px;
+    background: #fff;
+    display: flex;
+    border-radius: 6px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.25);
+    overflow: hidden;
+    font-family: "Arial", sans-serif;
+}
+
+/* --- BARRA LATERAL --- */
+.sidebar {
+    width: 180px;
+    background: linear-gradient(180deg, #0a84ff, #0062cc);
+}
+
+/* --- CONTEÚDO --- */
+.resume-content {
+    padding: 40px 55px;
+    width: calc(100% - 180px);
+}
+
+.resume-name {
+    font-size: 32px;
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: bold;
+}
+
+.resume-section {
+    font-size: 18px;
+    margin-top: 25px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #0a84ff;
+    display: inline-block;
+    padding-bottom: 3px;
+    color: #0a84ff;
+}
+
+.resume-content p {
+    margin: 4px 0;
+    font-size: 15px;
+}
