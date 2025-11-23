@@ -71,3 +71,24 @@ function gerarCurriculo() {
 function closePreview() {
     document.getElementById("previewModal").style.display = "none";
 }
+function gerarCurriculo() {
+    // DADOS PESSOAIS
+    document.getElementById("p_nome").innerText = document.getElementById("nome").value;
+    document.getElementById("p_situacao").innerText = document.getElementById("situacao").value;
+    document.getElementById("p_nacionalidade").innerText = document.getElementById("nacionalidade").value;
+    document.getElementById("p_sexo").innerText = document.getElementById("sexo").value;
+    document.getElementById("p_idade").innerText = document.getElementById("idade").value;
+    document.getElementById("p_civil").innerText = document.getElementById("civil").value;
+
+    // OBJETIVO
+    document.getElementById("p_objetivo").innerText = document.getElementById("objetivo").value;
+
+    // As outras seções serão preenchidas depois (formação, experiência, qualificação)
+
+    // EXIBE A PRÉVIA
+    document.getElementById("previewModal").style.display = "flex";
+}
+
+function closePreview() {
+    document.getElementById("previewModal").style.display = "none";
+}
