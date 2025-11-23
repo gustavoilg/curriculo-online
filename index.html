@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Gerador de Currículo — Modelo Premium</title>
-
   <style>
     *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,Helvetica,sans-serif}
     body{background:linear-gradient(135deg,#eef2ff,#f0f9ff 60%,#fffaf0);padding:20px;display:flex;justify-content:center}
@@ -19,18 +18,14 @@
     .btn-primary{background:linear-gradient(90deg,#4f46e5,#7c3aed);color:#fff;border:none;padding:12px 16px;border-radius:10px;cursor:pointer;font-weight:700}
     .btn-secondary{background:#eef2ff;border:1px solid #c7d2fe;color:#1e3a8a;padding:10px 14px;border-radius:10px;cursor:pointer}
 
-    /* PREVIEW modal */
-    .preview-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);justify-content:center;align-items:flex-start;padding:28px;z-index:1200}
-    .preview-wrapper{position:relative;transform:scale(0.62);transform-origin:top center}
+    .preview-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);justify-content:center;align-items:flex-start;padding:28px;z-index:1200;overflow:auto}
+    .preview-wrapper{position:relative;transform:scale(0.6);transform-origin:top center}
     .close-preview{position:absolute;top:-56px;right:0;font-size:42px;color:#fff;background:transparent;border:none;cursor:pointer}
-
-    /* A4 sheet */
     .a4-sheet{width:794px;height:1123px;background:#fff;border-radius:6px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 10px 40px rgba(2,6,23,0.15)}
-    .topbar{height:120px;background:linear-gradient(90deg,#365b90,#2a4770);position:relative}
+    .topbar{height:120px;position:relative}
     .sheet-inner{display:flex;flex:1}
     .left-col{width:240px;padding:22px;background:#fafbfd;border-right:1px solid #eef2ff;display:flex;flex-direction:column;gap:16px}
     .right-col{flex:1;padding:28px 36px;overflow:auto}
-
     .photo{width:120px;height:120px;border-radius:999px;background-color:#fff;border:4px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#334155;margin-bottom:4px;background-size:cover;background-position:center;background-repeat:no-repeat}
     .pv-block h4{font-size:13px;color:#0f172a;margin-bottom:8px;border-bottom:1px solid #e6eef9;padding-bottom:6px}
     .pv-block p{font-size:13px;color:#475569;line-height:1.45}
@@ -44,14 +39,20 @@
     .preview-actions button{min-width:160px}
     .premium-payment{margin-top:12px;display:none;flex-direction:column;gap:8px}
 
-    @media(max-width:1000px){ .preview-wrapper{transform:scale(0.46)} }
-    @media(max-width:640px){ body{padding:18px} .container{padding:18px} }
+    /* Diferenciação de modelos */
+    .modelo-gratis .topbar{background:linear-gradient(90deg,#365b90,#2a4770);}
+    .modelo-premium1 .topbar{background:linear-gradient(90deg,#f59e0b,#ef4444);}
+    .modelo-premium2 .topbar{background:linear-gradient(90deg,#1f2937,#4b5563);}
+    .modelo-premium1 .left-col{background:#fff7ed;border-right:2px solid #fcd34d;}
+    .modelo-premium2 .left-col{background:#f3f4f6;border-right:2px solid #6b7280;}
+    .modelo-premium1 #pv_nome{color:#b45309;}
+    .modelo-premium2 #pv_nome{color:#f59e0b;}
+    .modelo-premium1 .pv-cargo{color:#ea580c;}
+    .modelo-premium2 .pv-cargo{color:#facc15;}
   </style>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-
 <body>
   <div class="container">
     <h1 class="titulo-principal">Gerador de Currículo Profissional</h1>
@@ -68,18 +69,12 @@
 
     <section class="section">
       <div class="section-title">DADOS PESSOAIS</div>
-      <label>Nome</label>
-      <input id="nome">
-      <label>Foto para o currículo</label>
-      <input type="file" id="foto" accept="image/*">
-      <label>Profissão</label>
-      <input id="profissao">
-      <label>E-mail</label>
-      <input id="email">
-      <label>Telefone</label>
-      <input id="telefone">
-      <label>Endereço</label>
-      <input id="endereco">
+      <label>Nome</label><input id="nome">
+      <label>Foto</label><input type="file" id="foto" accept="image/*">
+      <label>Profissão</label><input id="profissao">
+      <label>E-mail</label><input id="email">
+      <label>Telefone</label><input id="telefone">
+      <label>Endereço</label><input id="endereco">
     </section>
 
     <section class="section">
@@ -88,26 +83,14 @@
     </section>
 
     <section class="section">
-      <div class="section-title">FORMAÇÃO ACADÊMICA</div>
-      <div id="formacoesList">
-        <div class="repeat">
-          <input class="formacao-curso" placeholder="Curso / Certificação">
-          <input class="formacao-instituicao" placeholder="Instituição">
-          <input class="formacao-ano" placeholder="Ano">
-        </div>
-      </div>
+      <div class="section-title">FORMAÇÃO / CERTIFICAÇÕES</div>
+      <div id="formacoesList"><div class="repeat"><input class="formacao-curso" placeholder="Curso / Certificação"><input class="formacao-instituicao" placeholder="Instituição"><input class="formacao-ano" placeholder="Ano"></div></div>
       <div class="add-btn" id="addFormacao">+ Adicionar outro curso</div>
     </section>
 
     <section class="section">
       <div class="section-title">EXPERIÊNCIA PROFISSIONAL</div>
-      <div id="experienciasList">
-        <div class="repeat">
-          <input class="exp-empresa" placeholder="Empresa">
-          <input class="exp-cargo" placeholder="Cargo">
-          <textarea class="exp-desc" placeholder="Descrição"></textarea>
-        </div>
-      </div>
+      <div id="experienciasList"><div class="repeat"><input class="exp-empresa" placeholder="Empresa"><input class="exp-cargo" placeholder="Cargo"><textarea class="exp-desc" placeholder="Descrição"></textarea></div></div>
       <div class="add-btn" id="addExperiencia">+ Adicionar outra experiência</div>
     </section>
 
@@ -119,48 +102,24 @@
     <button id="btnGerar" class="btn-primary">Gerar Meu Currículo</button>
   </div>
 
-  <!-- PREVIEW -->
   <div id="previewModal" class="preview-modal">
     <div class="preview-wrapper">
       <button id="closePreview" class="close-preview">✕</button>
-
       <div class="a4-sheet" id="a4Sheet">
         <div class="topbar"></div>
         <div class="sheet-inner">
           <aside class="left-col">
             <div class="photo" id="pv_foto">FOTO</div>
-            <div class="pv-block">
-              <h4>CONTATO</h4>
-              <p id="pv_contato"></p>
-            </div>
-            <div class="pv-block">
-              <h4>IDIOMAS</h4>
-              <p id="pv_idiomas"></p>
-            </div>
-            <div class="pv-block">
-              <h4>HABILIDADES</h4>
-              <p id="pv_habilidades"></p>
-            </div>
+            <div class="pv-block"><h4>CONTATO</h4><p id="pv_contato"></p></div>
+            <div class="pv-block"><h4>IDIOMAS</h4><p id="pv_idiomas"></p></div>
+            <div class="pv-block"><h4>HABILIDADES</h4><p id="pv_habilidades"></p></div>
           </aside>
-
           <main class="right-col">
             <h1 id="pv_nome">Nome Completo</h1>
             <div id="pv_cargo" class="pv-cargo"></div>
-
-            <section class="pv-section">
-              <h3>PERFIL PROFISSIONAL</h3>
-              <p id="pv_objetivo"></p>
-            </section>
-
-            <section class="pv-section">
-              <h3>EXPERIÊNCIA PROFISSIONAL</h3>
-              <div id="pv_experiencias"></div>
-            </section>
-
-            <section class="pv-section">
-              <h3>FORMAÇÃO ACADÊMICA / CERTIFICAÇÕES</h3>
-              <div id="pv_formacoes"></div>
-            </section>
+            <section class="pv-section"><h3>PERFIL PROFISSIONAL</h3><p id="pv_objetivo"></p></section>
+            <section class="pv-section"><h3>EXPERIÊNCIA PROFISSIONAL</h3><div id="pv_experiencias"></div></section>
+            <section class="pv-section"><h3>FORMAÇÃO ACADÊMICA / CERTIFICAÇÕES</h3><div id="pv_formacoes"></div></section>
           </main>
         </div>
       </div>
@@ -179,7 +138,6 @@
 
   <script>
     (function(){
-
       const nomeInput = document.getElementById('nome');
       const profissaoInput = document.getElementById('profissao');
       const emailInput = document.getElementById('email');
@@ -189,7 +147,6 @@
       const habilidadesInput = document.getElementById('habilidades');
       const fotoInput = document.getElementById('foto');
       const modeloSelect = document.getElementById('modelo');
-
       const previewModal = document.getElementById('previewModal');
       const closePreview = document.getElementById('closePreview');
       const pv_nome = document.getElementById('pv_nome');
@@ -203,109 +160,95 @@
       const pv_foto = document.getElementById('pv_foto');
       const previewPayment = document.getElementById('premiumPayment');
       const payPixBtn = document.getElementById('payPix');
-      const pixLink = document.getElementById('pixLink');
       const downloadPdf = document.getElementById('downloadPdf');
 
-      document.getElementById('addFormacao').onclick = () => {
-        const box = document.createElement('div');
+      document.getElementById('addFormacao').onclick = ()=>{
+        const box=document.createElement('div');
         box.className='repeat';
-        box.innerHTML = '<input class="formacao-curso" placeholder="Curso / Certificação"><input class="formacao-instituicao" placeholder="Instituição"><input class="formacao-ano" placeholder="Ano">';
+        box.innerHTML='<input class="formacao-curso" placeholder="Curso / Certificação"><input class="formacao-instituicao" placeholder="Instituição"><input class="formacao-ano" placeholder="Ano">';
         formacoesList.appendChild(box);
       };
-
-      document.getElementById('addExperiencia').onclick = () => {
-        const box = document.createElement('div');
+      document.getElementById('addExperiencia').onclick = ()=>{
+        const box=document.createElement('div');
         box.className='repeat';
-        box.innerHTML = '<input class="exp-empresa" placeholder="Empresa"><input class="exp-cargo" placeholder="Cargo"><textarea class="exp-desc" placeholder="Descrição"></textarea>';
+        box.innerHTML='<input class="exp-empresa" placeholder="Empresa"><input class="exp-cargo" placeholder="Cargo"><textarea class="exp-desc" placeholder="Descrição"></textarea>';
         experienciasList.appendChild(box);
       };
 
       fotoInput.addEventListener("change", function () {
-        const file = this.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          pv_foto.style.backgroundImage = `url(${e.target.result})`;
-          pv_foto.innerText = "";
+        const file=this.files[0];
+        if(!file)return;
+        const reader=new FileReader();
+        reader.onload=function(e){
+          pv_foto.style.backgroundImage=`url(${e.target.result})`;
+          pv_foto.innerText="";
         };
         reader.readAsDataURL(file);
       });
 
-      btnGerar.onclick = () => {
-        pv_nome.textContent = nomeInput.value || "Seu Nome";
-        pv_cargo.textContent = profissaoInput.value || "Profissão";
-        pv_objetivo.textContent = objetivoInput.value || "";
-        pv_habilidades.textContent = habilidadesInput.value || "";
+      btnGerar.onclick=()=>{
+        pv_nome.textContent=nomeInput.value||"Seu Nome";
+        pv_cargo.textContent=profissaoInput.value||"Profissão";
+        pv_objetivo.textContent=objetivoInput.value||"";
+        pv_habilidades.textContent=habilidadesInput.value||"";
+        let contato="";
+        if(telefoneInput.value)contato+="☎ "+telefoneInput.value+"<br>";
+        if(emailInput.value)contato+="✉ "+emailInput.value+"<br>";
+        if(enderecoInput.value)contato+="📍 "+enderecoInput.value;
+        pv_contato.innerHTML=contato;
+        pv_idiomas.innerText="Português — Nativo";
 
-        let contato = "";
-        if(telefoneInput.value) contato += "☎ " + telefoneInput.value + "<br>";
-        if(emailInput.value) contato += "✉ " + emailInput.value + "<br>";
-        if(enderecoInput.value) contato += "📍 " + enderecoInput.value;
-        pv_contato.innerHTML = contato;
-        pv_idiomas.innerText = "Português — Nativo";
-
-        // FORMACOES
         pv_formacoes.innerHTML='';
         document.querySelectorAll('#formacoesList .repeat').forEach(f=>{
           const curso=f.querySelector('.formacao-curso').value;
           const inst=f.querySelector('.formacao-instituicao').value;
           const ano=f.querySelector('.formacao-ano').value;
           if(curso||inst||ano){
-            const div=document.createElement('div');
-            div.className='pv-item';
+            const div=document.createElement('div'); div.className='pv-item';
             div.innerHTML=`<strong>${curso}</strong><div style="font-size:13px;color:#475569">${inst} ${ano?(" • "+ano):""}</div>`;
             pv_formacoes.appendChild(div);
           }
         });
 
-        // EXPERIÊNCIAS
         pv_experiencias.innerHTML='';
         document.querySelectorAll('#experienciasList .repeat').forEach(exp=>{
           const emp=exp.querySelector('.exp-empresa').value;
           const cargo=exp.querySelector('.exp-cargo').value;
           const desc=exp.querySelector('.exp-desc').value;
           if(emp||cargo||desc){
-            const div=document.createElement('div');
-            div.className='pv-item';
+            const div=document.createElement('div'); div.className='pv-item';
             div.innerHTML=`<strong>${cargo} — ${emp}</strong><div style="font-size:13px;color:#475569;margin-top:6px">${desc.replace(/\n/g,'<br>')}</div>`;
             pv_experiencias.appendChild(div);
           }
         });
 
-        // MODELO
-        const modelo = modeloSelect.value;
-        if(modelo==='gratis'){
-          previewPayment.style.display='none';
-          downloadPdf.disabled=false;
-        } else {
-          previewPayment.style.display='flex';
-          downloadPdf.disabled=true;
-        }
+        const modelo=modeloSelect.value;
+        const sheet=document.getElementById('a4Sheet');
+        sheet.className='a4-sheet';
+        if(modelo==='gratis') {sheet.classList.add('modelo-gratis'); previewPayment.style.display='none'; downloadPdf.disabled=false;}
+        else if(modelo==='premium1'){sheet.classList.add('modelo-premium1'); previewPayment.style.display='flex'; downloadPdf.disabled=true;}
+        else if(modelo==='premium2'){sheet.classList.add('modelo-premium2'); previewPayment.style.display='flex'; downloadPdf.disabled=true;}
 
         previewModal.style.display='flex';
       };
 
-      closePreview.onclick = () => previewModal.style.display='none';
-
-      payPixBtn.onclick = () => {
-        // Aqui você pode gerar QR code real ou redirecionar
-        alert("Pix simulado: pague R$4,99");
+      closePreview.onclick=()=>previewModal.style.display='none';
+      payPixBtn.onclick=()=>{
+        alert("PIX simulado: pague R$4,99");
         downloadPdf.disabled=false;
       };
 
-      downloadPdf.onclick = async () => {
-        const modelo = modeloSelect.value;
-        if(modelo!=='gratis' && downloadPdf.disabled){
-          return alert("Pague o PIX para liberar o PDF Premium!");
-        }
-        const a4 = document.getElementById('a4Sheet');
-        const canvas = await html2canvas(a4,{scale:2,useCORS:true});
-        const img = canvas.toDataURL("image/png");
-        const pdf = new jspdf.jsPDF("p","pt","a4");
-        const w = pdf.internal.pageSize.getWidth();
-        const h = pdf.internal.pageSize.getHeight();
+      downloadPdf.onclick=async()=>{
+        const modelo=modeloSelect.value;
+        if(modelo!=='gratis' && downloadPdf.disabled) return alert("Pague o PIX para liberar o PDF Premium!");
+        const a4=document.getElementById('a4Sheet');
+        const canvas=await html2canvas(a4,{scale:2,useCORS:true});
+        const img=canvas.toDataURL("image/png");
+        const pdf=new jspdf.jsPDF("p","pt","a4");
+        const w=pdf.internal.pageSize.getWidth();
+        const h=pdf.internal.pageSize.getHeight();
         pdf.addImage(img,"PNG",0,0,w,h);
-        pdf.save((nomeInput.value || "curriculo")+".pdf");
+        pdf.save((nomeInput.value||"curriculo")+".pdf");
       };
 
     })();
