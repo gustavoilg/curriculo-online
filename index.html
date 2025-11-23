@@ -172,5 +172,27 @@
 
 <!-- Botão para abrir preview ao invés de gerar direto -->
 <script src="preview.js"></script>
+    <!-- PREVIEW A4 SOBREPOSTO -->
+<div id="previewModal" class="preview-modal">
+  <div class="preview-content">
+    <span class="close-preview" onclick="closePreview()">×</span>
+
+    <!-- MINIATURA DA FOLHA A4 -->
+    <div class="a4-sheet" id="a4Preview">
+      <h2 id="p_nome">Nome Sobrenome</h2>
+      <p id="p_profissao">Profissão</p>
+      <hr>
+
+      <h3>Sobre Mim</h3>
+      <p id="p_sobre">Texto sobre mim...</p>
+
+      <h3>Experiência</h3>
+      <p id="p_exp"></p>
+
+      <h3>Educação</h3>
+      <p id="p_edu"></p>
+    </div>
+  </div>
+</div>
 </body>
 </html>
