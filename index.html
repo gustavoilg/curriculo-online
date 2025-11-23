@@ -4,9 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Gerador de Currículo — Modelo Premium</title>
+
   <style>
     *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,Helvetica,sans-serif}
-    body{background:linear-gradient(135deg,#eef2ff,#f0f9ff 60%,#fffaf0);padding:28px;display:flex;justify-content:center}
+    body{background:linear-gradient(135deg,#eef2ff,#f0f9ff 60%,#fffaf0);padding:20px;display:flex;justify-content:center}
     .container{width:100%;max-width:920px;background:#fff;padding:26px;border-radius:14px;box-shadow:0 12px 40px rgba(2,6,23,0.08)}
     .titulo-principal{font-size:26px;font-weight:800;text-align:center;background:linear-gradient(90deg,#4f46e5,#9333ea);-webkit-background-clip:text;color:transparent}
     .subtitulo{text-align:center;color:#6b7280;margin-bottom:16px}
@@ -17,9 +18,9 @@
     .add-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#eef2ff,#f7fbff);border:1px solid #dbeafe;color:#1e3a8a;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600}
     .btn-primary{background:linear-gradient(90deg,#4f46e5,#7c3aed);color:#fff;border:none;padding:12px 16px;border-radius:10px;cursor:pointer;font-weight:700}
     .btn-secondary{background:#eef2ff;border:1px solid #c7d2fe;color:#1e3a8a;padding:10px 14px;border-radius:10px;cursor:pointer}
-    
+
     /* PREVIEW modal */
-    .preview-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);justify-content:center;align-items:flex-start;padding:28px;z-index:1200;overflow:auto}
+    .preview-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);justify-content:center;align-items:flex-start;padding:28px;z-index:1200}
     .preview-wrapper{position:relative;transform:scale(0.62);transform-origin:top center}
     .close-preview{position:absolute;top:-56px;right:0;font-size:42px;color:#fff;background:transparent;border:none;cursor:pointer}
 
@@ -30,13 +31,7 @@
     .left-col{width:240px;padding:22px;background:#fafbfd;border-right:1px solid #eef2ff;display:flex;flex-direction:column;gap:16px}
     .right-col{flex:1;padding:28px 36px;overflow:auto}
 
-    /* FOTO */
-    .photo{
-      width:120px;height:120px;border-radius:999px;background-color:#fff;border:4px solid rgba(255,255,255,0.2);
-      display:flex;align-items:center;justify-content:center;font-weight:700;color:#334155;margin-bottom:4px;
-      background-size:cover;background-position:center;background-repeat:no-repeat;
-    }
-
+    .photo{width:120px;height:120px;border-radius:999px;background-color:#fff;border:4px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#334155;margin-bottom:4px;background-size:cover;background-position:center;background-repeat:no-repeat}
     .pv-block h4{font-size:13px;color:#0f172a;margin-bottom:8px;border-bottom:1px solid #e6eef9;padding-bottom:6px}
     .pv-block p{font-size:13px;color:#475569;line-height:1.45}
     #pv_nome{font-size:30px;font-weight:800;color:#0f172a;margin-bottom:6px}
@@ -45,9 +40,9 @@
     .pv-section h3{font-size:14px;color:#0f172a;border-bottom:1px solid #e6eef9;padding-bottom:6px;margin-bottom:8px}
     .pv-section p{font-size:14px;color:#334155;line-height:1.5;margin-bottom:6px}
     .pv-item{margin-bottom:10px}
-
     .preview-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:12px}
     .preview-actions button{min-width:160px}
+    .premium-payment{margin-top:12px;display:none;flex-direction:column;gap:8px}
 
     @media(max-width:1000px){ .preview-wrapper{transform:scale(0.46)} }
     @media(max-width:640px){ body{padding:18px} .container{padding:18px} }
@@ -58,250 +53,262 @@
 </head>
 
 <body>
-<div class="container">
-  <h1 class="titulo-principal">Gerador de Currículo Profissional</h1>
-  <p class="subtitulo">Preencha os campos e clique em Gerar Meu Currículo</p>
+  <div class="container">
+    <h1 class="titulo-principal">Gerador de Currículo Profissional</h1>
+    <p class="subtitulo">Preencha os campos e clique em Gerar Meu Currículo</p>
 
-  <section class="section">
-    <div class="section-title">DADOS PESSOAIS</div>
-    <label>Nome</label>
-    <input id="nome">
-    <label>Foto</label>
-    <input type="file" id="foto" accept="image/*">
-    <label>Profissão</label>
-    <input id="profissao">
-    <label>E-mail</label>
-    <input id="email">
-    <label>Telefone</label>
-    <input id="telefone">
-    <label>Endereço</label>
-    <input id="endereco">
-  </section>
+    <section class="section">
+      <div class="section-title">ESCOLHA O MODELO</div>
+      <select id="modelo">
+        <option value="gratis">Gratuito</option>
+        <option value="premium1">Premium 1 — R$4,99</option>
+        <option value="premium2">Premium 2 — R$4,99</option>
+      </select>
+    </section>
 
-  <section class="section">
-    <div class="section-title">OBJETIVO / RESUMO</div>
-    <textarea id="objetivo"></textarea>
-  </section>
+    <section class="section">
+      <div class="section-title">DADOS PESSOAIS</div>
+      <label>Nome</label>
+      <input id="nome">
+      <label>Foto para o currículo</label>
+      <input type="file" id="foto" accept="image/*">
+      <label>Profissão</label>
+      <input id="profissao">
+      <label>E-mail</label>
+      <input id="email">
+      <label>Telefone</label>
+      <input id="telefone">
+      <label>Endereço</label>
+      <input id="endereco">
+    </section>
 
-  <section class="section">
-    <div class="section-title">FORMAÇÃO ACADÊMICA</div>
-    <div id="formacoesList">
-      <div class="repeat">
-        <input class="formacao-curso" placeholder="Curso">
-        <input class="formacao-instituicao" placeholder="Instituição">
-        <input class="formacao-ano" placeholder="Ano">
+    <section class="section">
+      <div class="section-title">OBJETIVO / RESUMO</div>
+      <textarea id="objetivo"></textarea>
+    </section>
+
+    <section class="section">
+      <div class="section-title">FORMAÇÃO ACADÊMICA</div>
+      <div id="formacoesList">
+        <div class="repeat">
+          <input class="formacao-curso" placeholder="Curso / Certificação">
+          <input class="formacao-instituicao" placeholder="Instituição">
+          <input class="formacao-ano" placeholder="Ano">
+        </div>
       </div>
-    </div>
-    <div class="add-btn" id="addFormacao">+ Adicionar outro curso</div>
-  </section>
+      <div class="add-btn" id="addFormacao">+ Adicionar outro curso</div>
+    </section>
 
-  <section class="section">
-    <div class="section-title">EXPERIÊNCIA</div>
-    <div id="experienciasList">
-      <div class="repeat">
-        <input class="exp-empresa" placeholder="Empresa">
-        <input class="exp-cargo" placeholder="Cargo">
-        <textarea class="exp-desc" placeholder="Descrição"></textarea>
+    <section class="section">
+      <div class="section-title">EXPERIÊNCIA PROFISSIONAL</div>
+      <div id="experienciasList">
+        <div class="repeat">
+          <input class="exp-empresa" placeholder="Empresa">
+          <input class="exp-cargo" placeholder="Cargo">
+          <textarea class="exp-desc" placeholder="Descrição"></textarea>
+        </div>
       </div>
-    </div>
-    <div class="add-btn" id="addExperiencia">+ Adicionar outra experiência</div>
-  </section>
+      <div class="add-btn" id="addExperiencia">+ Adicionar outra experiência</div>
+    </section>
 
-  <section class="section">
-    <div class="section-title">CURSOS / CERTIFICAÇÕES</div>
-    <div id="cursosList">
-      <div class="repeat">
-        <input class="curso-nome" placeholder="Curso / Certificação">
-        <input class="curso-instituicao" placeholder="Instituição">
-        <input class="curso-ano" placeholder="Ano">
+    <section class="section">
+      <div class="section-title">HABILIDADES / IDIOMAS</div>
+      <textarea id="habilidades"></textarea>
+    </section>
+
+    <button id="btnGerar" class="btn-primary">Gerar Meu Currículo</button>
+  </div>
+
+  <!-- PREVIEW -->
+  <div id="previewModal" class="preview-modal">
+    <div class="preview-wrapper">
+      <button id="closePreview" class="close-preview">✕</button>
+
+      <div class="a4-sheet" id="a4Sheet">
+        <div class="topbar"></div>
+        <div class="sheet-inner">
+          <aside class="left-col">
+            <div class="photo" id="pv_foto">FOTO</div>
+            <div class="pv-block">
+              <h4>CONTATO</h4>
+              <p id="pv_contato"></p>
+            </div>
+            <div class="pv-block">
+              <h4>IDIOMAS</h4>
+              <p id="pv_idiomas"></p>
+            </div>
+            <div class="pv-block">
+              <h4>HABILIDADES</h4>
+              <p id="pv_habilidades"></p>
+            </div>
+          </aside>
+
+          <main class="right-col">
+            <h1 id="pv_nome">Nome Completo</h1>
+            <div id="pv_cargo" class="pv-cargo"></div>
+
+            <section class="pv-section">
+              <h3>PERFIL PROFISSIONAL</h3>
+              <p id="pv_objetivo"></p>
+            </section>
+
+            <section class="pv-section">
+              <h3>EXPERIÊNCIA PROFISSIONAL</h3>
+              <div id="pv_experiencias"></div>
+            </section>
+
+            <section class="pv-section">
+              <h3>FORMAÇÃO ACADÊMICA / CERTIFICAÇÕES</h3>
+              <div id="pv_formacoes"></div>
+            </section>
+          </main>
+        </div>
       </div>
-    </div>
-    <div class="add-btn" id="addCurso">+ Adicionar outro curso</div>
-  </section>
 
-  <section class="section">
-    <div class="section-title">HABILIDADES / IDIOMAS</div>
-    <textarea id="habilidades"></textarea>
-  </section>
-
-  <button id="btnGerar" class="btn-primary">Gerar Meu Currículo</button>
-</div>
-
-<!-- PREVIEW -->
-<div id="previewModal" class="preview-modal">
-  <div class="preview-wrapper">
-    <button id="closePreview" class="close-preview">✕</button>
-
-    <div class="a4-sheet" id="a4Sheet">
-      <div class="topbar"></div>
-      <div class="sheet-inner">
-        <aside class="left-col">
-          <div class="photo" id="pv_foto">FOTO</div>
-
-          <div class="pv-block">
-            <h4>CONTATO</h4>
-            <p id="pv_contato"></p>
-          </div>
-
-          <div class="pv-block">
-            <h4>IDIOMAS</h4>
-            <p id="pv_idiomas">Português — Nativo</p>
-          </div>
-
-          <div class="pv-block">
-            <h4>HABILIDADES</h4>
-            <p id="pv_habilidades"></p>
-          </div>
-        </aside>
-
-        <main class="right-col">
-          <h1 id="pv_nome">Nome Completo</h1>
-          <div id="pv_cargo" class="pv-cargo"></div>
-
-          <section class="pv-section">
-            <h3>PERFIL PROFISSIONAL</h3>
-            <p id="pv_objetivo"></p>
-          </section>
-
-          <section class="pv-section">
-            <h3>EXPERIÊNCIAS PROFISSIONAIS</h3>
-            <div id="pv_experiencias"></div>
-          </section>
-
-          <section class="pv-section">
-            <h3>FORMAÇÃO ACADÊMICA</h3>
-            <div id="pv_formacoes"></div>
-          </section>
-
-          <section class="pv-section">
-            <h3>CURSOS / CERTIFICAÇÕES</h3>
-            <div id="pv_cursos"></div>
-          </section>
-        </main>
+      <div class="premium-payment" id="premiumPayment">
+        <p>Para baixar o PDF do modelo Premium, pague R$4,99:</p>
+        <button id="payPix" class="btn-secondary">Pagar via PIX</button>
+        <a id="pixLink" href="https://pag.a/pixlink" target="_blank" style="display:none;">Clique aqui para pagar</a>
       </div>
-    </div>
 
-    <div class="preview-actions">
-      <button id="watchAd" class="btn-secondary">Assistir anúncio</button>
-      <button id="downloadPdf" class="btn-primary" disabled>Baixar PDF</button>
+      <div class="preview-actions">
+        <button id="downloadPdf" class="btn-primary" disabled>Baixar PDF</button>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-(function(){
-  function el(tag, cls, txt){const e=document.createElement(tag); if(cls) e.className=cls; if(txt!==undefined) e.innerText=txt; return e;}
+  <script>
+    (function(){
 
-  // Referências
-  const nomeInput = document.getElementById('nome');
-  const profissaoInput = document.getElementById('profissao');
-  const emailInput = document.getElementById('email');
-  const telefoneInput = document.getElementById('telefone');
-  const enderecoInput = document.getElementById('endereco');
-  const objetivoInput = document.getElementById('objetivo');
-  const habilidadesInput = document.getElementById('habilidades');
-  const fotoInput = document.getElementById('foto');
+      const nomeInput = document.getElementById('nome');
+      const profissaoInput = document.getElementById('profissao');
+      const emailInput = document.getElementById('email');
+      const telefoneInput = document.getElementById('telefone');
+      const enderecoInput = document.getElementById('endereco');
+      const objetivoInput = document.getElementById('objetivo');
+      const habilidadesInput = document.getElementById('habilidades');
+      const fotoInput = document.getElementById('foto');
+      const modeloSelect = document.getElementById('modelo');
 
-  const pv_nome = document.getElementById('pv_nome');
-  const pv_cargo = document.getElementById('pv_cargo');
-  const pv_objetivo = document.getElementById('pv_objetivo');
-  const pv_habilidades = document.getElementById('pv_habilidades');
-  const pv_contato = document.getElementById('pv_contato');
-  const pv_idiomas = document.getElementById('pv_idiomas');
-  const pv_foto = document.getElementById('pv_foto');
-  const pv_formacoes = document.getElementById('pv_formacoes');
-  const pv_experiencias = document.getElementById('pv_experiencias');
-  const pv_cursos = document.getElementById('pv_cursos');
+      const previewModal = document.getElementById('previewModal');
+      const closePreview = document.getElementById('closePreview');
+      const pv_nome = document.getElementById('pv_nome');
+      const pv_cargo = document.getElementById('pv_cargo');
+      const pv_objetivo = document.getElementById('pv_objetivo');
+      const pv_habilidades = document.getElementById('pv_habilidades');
+      const pv_contato = document.getElementById('pv_contato');
+      const pv_idiomas = document.getElementById('pv_idiomas');
+      const pv_formacoes = document.getElementById('pv_formacoes');
+      const pv_experiencias = document.getElementById('pv_experiencias');
+      const pv_foto = document.getElementById('pv_foto');
+      const previewPayment = document.getElementById('premiumPayment');
+      const payPixBtn = document.getElementById('payPix');
+      const pixLink = document.getElementById('pixLink');
+      const downloadPdf = document.getElementById('downloadPdf');
 
-  const previewModal = document.getElementById('previewModal');
-  const btnGerar = document.getElementById('btnGerar');
-  const closePreview = document.getElementById('closePreview');
-  const watchAd = document.getElementById('watchAd');
-  const downloadPdf = document.getElementById('downloadPdf');
+      document.getElementById('addFormacao').onclick = () => {
+        const box = document.createElement('div');
+        box.className='repeat';
+        box.innerHTML = '<input class="formacao-curso" placeholder="Curso / Certificação"><input class="formacao-instituicao" placeholder="Instituição"><input class="formacao-ano" placeholder="Ano">';
+        formacoesList.appendChild(box);
+      };
 
-  // Adicionar blocos
-  document.getElementById('addFormacao').onclick = () => {
-    const box = document.createElement('div'); box.className='repeat';
-    box.innerHTML='<input class="formacao-curso" placeholder="Curso"><input class="formacao-instituicao" placeholder="Instituição"><input class="formacao-ano" placeholder="Ano">';
-    document.getElementById('formacoesList').appendChild(box);
-  };
+      document.getElementById('addExperiencia').onclick = () => {
+        const box = document.createElement('div');
+        box.className='repeat';
+        box.innerHTML = '<input class="exp-empresa" placeholder="Empresa"><input class="exp-cargo" placeholder="Cargo"><textarea class="exp-desc" placeholder="Descrição"></textarea>';
+        experienciasList.appendChild(box);
+      };
 
-  document.getElementById('addExperiencia').onclick = () => {
-    const box = document.createElement('div'); box.className='repeat';
-    box.innerHTML='<input class="exp-empresa" placeholder="Empresa"><input class="exp-cargo" placeholder="Cargo"><textarea class="exp-desc" placeholder="Descrição"></textarea>';
-    document.getElementById('experienciasList').appendChild(box);
-  };
+      fotoInput.addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          pv_foto.style.backgroundImage = `url(${e.target.result})`;
+          pv_foto.innerText = "";
+        };
+        reader.readAsDataURL(file);
+      });
 
-  document.getElementById('addCurso').onclick = () => {
-    const box = document.createElement('div'); box.className='repeat';
-    box.innerHTML='<input class="curso-nome" placeholder="Curso / Certificação"><input class="curso-instituicao" placeholder="Instituição"><input class="curso-ano" placeholder="Ano">';
-    document.getElementById('cursosList').appendChild(box);
-  };
+      btnGerar.onclick = () => {
+        pv_nome.textContent = nomeInput.value || "Seu Nome";
+        pv_cargo.textContent = profissaoInput.value || "Profissão";
+        pv_objetivo.textContent = objetivoInput.value || "";
+        pv_habilidades.textContent = habilidadesInput.value || "";
 
-  // Foto
-  fotoInput.addEventListener("change", function(){
-    const file=this.files[0]; if(!file) return;
-    const reader=new FileReader();
-    reader.onload=function(e){pv_foto.style.backgroundImage=`url(${e.target.result})`; pv_foto.innerText='';};
-    reader.readAsDataURL(file);
-  });
+        let contato = "";
+        if(telefoneInput.value) contato += "☎ " + telefoneInput.value + "<br>";
+        if(emailInput.value) contato += "✉ " + emailInput.value + "<br>";
+        if(enderecoInput.value) contato += "📍 " + enderecoInput.value;
+        pv_contato.innerHTML = contato;
+        pv_idiomas.innerText = "Português — Nativo";
 
-  // Gerar preview
-  btnGerar.onclick = function(){
-    pv_nome.textContent = nomeInput.value || "Seu Nome";
-    pv_cargo.textContent = profissaoInput.value || "Profissão";
-    pv_objetivo.textContent = objetivoInput.value || "";
-    pv_habilidades.textContent = habilidadesInput.value || "";
-    let contato="";
-    if(telefoneInput.value) contato+="☎ "+telefoneInput.value+"<br>";
-    if(emailInput.value) contato+="✉ "+emailInput.value+"<br>";
-    if(enderecoInput.value) contato+="📍 "+enderecoInput.value;
-    pv_contato.innerHTML = contato;
+        // FORMACOES
+        pv_formacoes.innerHTML='';
+        document.querySelectorAll('#formacoesList .repeat').forEach(f=>{
+          const curso=f.querySelector('.formacao-curso').value;
+          const inst=f.querySelector('.formacao-instituicao').value;
+          const ano=f.querySelector('.formacao-ano').value;
+          if(curso||inst||ano){
+            const div=document.createElement('div');
+            div.className='pv-item';
+            div.innerHTML=`<strong>${curso}</strong><div style="font-size:13px;color:#475569">${inst} ${ano?(" • "+ano):""}</div>`;
+            pv_formacoes.appendChild(div);
+          }
+        });
 
-    // Formações
-    pv_formacoes.innerHTML=''; document.querySelectorAll('#formacoesList .repeat').forEach(f=>{
-      const curso=f.querySelector('.formacao-curso').value;
-      const inst=f.querySelector('.formacao-instituicao').value;
-      const ano=f.querySelector('.formacao-ano').value;
-      if(curso||inst||ano){ const div=el('div','pv-item'); div.innerHTML=`<strong>${curso}</strong><div style="font-size:13px;color:#475569">${inst}${ano?(" • "+ano):""}</div>`; pv_formacoes.appendChild(div);}
-    });
+        // EXPERIÊNCIAS
+        pv_experiencias.innerHTML='';
+        document.querySelectorAll('#experienciasList .repeat').forEach(exp=>{
+          const emp=exp.querySelector('.exp-empresa').value;
+          const cargo=exp.querySelector('.exp-cargo').value;
+          const desc=exp.querySelector('.exp-desc').value;
+          if(emp||cargo||desc){
+            const div=document.createElement('div');
+            div.className='pv-item';
+            div.innerHTML=`<strong>${cargo} — ${emp}</strong><div style="font-size:13px;color:#475569;margin-top:6px">${desc.replace(/\n/g,'<br>')}</div>`;
+            pv_experiencias.appendChild(div);
+          }
+        });
 
-    // Experiências
-    pv_experiencias.innerHTML=''; document.querySelectorAll('#experienciasList .repeat').forEach(exp=>{
-      const emp=exp.querySelector('.exp-empresa').value;
-      const cargo=exp.querySelector('.exp-cargo').value;
-      const desc=exp.querySelector('.exp-desc').value;
-      if(emp||cargo||desc){ const div=el('div','pv-item'); div.innerHTML=`<strong>${cargo} — ${emp}</strong><div style="font-size:13px;color:#475569;margin-top:6px">${desc.replace(/\n/g,'<br>')}</div>`; pv_experiencias.appendChild(div);}
-    });
+        // MODELO
+        const modelo = modeloSelect.value;
+        if(modelo==='gratis'){
+          previewPayment.style.display='none';
+          downloadPdf.disabled=false;
+        } else {
+          previewPayment.style.display='flex';
+          downloadPdf.disabled=true;
+        }
 
-    // Cursos
-    pv_cursos.innerHTML=''; document.querySelectorAll('#cursosList .repeat').forEach(c=>{
-      const curso=c.querySelector('.curso-nome').value;
-      const inst=c.querySelector('.curso-instituicao').value;
-      const ano=c.querySelector('.curso-ano').value;
-      if(curso||inst||ano){ const div=el('div','pv-item'); div.innerHTML=`<strong>${curso}</strong><div style="font-size:13px;color:#475569">${inst}${ano?(" • "+ano):""}</div>`; pv_cursos.appendChild(div);}
-    });
+        previewModal.style.display='flex';
+      };
 
-    previewModal.style.display='flex';
-  };
+      closePreview.onclick = () => previewModal.style.display='none';
 
-  closePreview.onclick = ()=> previewModal.style.display='none';
+      payPixBtn.onclick = () => {
+        // Aqui você pode gerar QR code real ou redirecionar
+        alert("Pix simulado: pague R$4,99");
+        downloadPdf.disabled=false;
+      };
 
-  let adWatched=false;
-  watchAd.onclick = ()=> { setTimeout(()=>{adWatched=true; downloadPdf.disabled=false;},3000); };
+      downloadPdf.onclick = async () => {
+        const modelo = modeloSelect.value;
+        if(modelo!=='gratis' && downloadPdf.disabled){
+          return alert("Pague o PIX para liberar o PDF Premium!");
+        }
+        const a4 = document.getElementById('a4Sheet');
+        const canvas = await html2canvas(a4,{scale:2,useCORS:true});
+        const img = canvas.toDataURL("image/png");
+        const pdf = new jspdf.jsPDF("p","pt","a4");
+        const w = pdf.internal.pageSize.getWidth();
+        const h = pdf.internal.pageSize.getHeight();
+        pdf.addImage(img,"PNG",0,0,w,h);
+        pdf.save((nomeInput.value || "curriculo")+".pdf");
+      };
 
-  downloadPdf.onclick = async ()=>{
-    if(!adWatched) return alert("Assista ao anúncio antes!");
-    const a4 = document.getElementById('a4Sheet');
-    const canvas = await html2canvas(a4,{scale:2,useCORS:true});
-    const img = canvas.toDataURL("image/png");
-    const pdf = new jspdf.jsPDF('p','pt','a4');
-    const w = pdf.internal.pageSize.getWidth();
-    const h = pdf.internal.pageSize.getHeight();
-    pdf.addImage(img,'PNG',0,0,w,h);
-    pdf.save((nomeInput.value || "curriculo")+".pdf");
-  };
-})();
-</script>
+    })();
+  </script>
 </body>
 </html>
