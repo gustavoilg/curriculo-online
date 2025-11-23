@@ -6,18 +6,16 @@
   <title>Gerador de Currículo — Modelo Premium</title>
 
   <style>
-    /* reset & base */
+    /* Reset & Base */
     *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,Helvetica,sans-serif}
     body{background:linear-gradient(135deg,#eef2ff,#f0f9ff 60%,#fffaf0);padding:28px;display:flex;justify-content:center}
     .container{width:100%;max-width:920px;background:#fff;padding:26px;border-radius:14px;box-shadow:0 12px 40px rgba(2,6,23,0.08)}
     .titulo-principal{font-size:26px;font-weight:800;text-align:center;background:linear-gradient(90deg,#4f46e5,#9333ea);-webkit-background-clip:text;color:transparent}
     .subtitulo{text-align:center;color:#6b7280;margin-bottom:16px}
-
     .section{background:#fbfdff;border:1px solid #eef2ff;padding:14px;border-radius:12px;margin-bottom:12px}
     .section-title{font-size:15px;font-weight:700;color:#1f2937;margin-bottom:10px}
     input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid #e6eef9;background:#fff;margin-bottom:10px;font-size:14px}
     textarea{resize:vertical;min-height:80px}
-
     .add-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#eef2ff,#f7fbff);border:1px solid #dbeafe;color:#1e3a8a;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600}
     .btn-primary{background:linear-gradient(90deg,#4f46e5,#7c3aed);color:#fff;border:none;padding:12px 16px;border-radius:10px;cursor:pointer;font-weight:700}
     .btn-secondary{background:#eef2ff;border:1px solid #c7d2fe;color:#1e3a8a;padding:10px 14px;border-radius:10px;cursor:pointer}
@@ -34,24 +32,8 @@
     .left-col{width:240px;padding:22px;background:#fafbfd;border-right:1px solid #eef2ff;display:flex;flex-direction:column;gap:16px}
     .right-col{flex:1;padding:28px 36px;overflow:auto}
 
-    /* FOTO — versão corrigida */
-    .photo{
-      width:120px;
-      height:120px;
-      border-radius:999px;
-      background-color:#fff;  /* não sobrescreve mais o background-image */
-      border:4px solid rgba(255,255,255,0.2);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:700;
-      color:#334155;
-      margin-bottom:4px;
-
-      background-size:cover;
-      background-position:center;
-      background-repeat:no-repeat;
-    }
+    /* FOTO */
+    .photo{width:120px;height:120px;border-radius:999px;background:#fff;border:4px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#334155;margin-bottom:4px;background-size:cover;background-position:center;background-repeat:no-repeat}
 
     .pv-block h4{font-size:13px;color:#0f172a;margin-bottom:8px;border-bottom:1px solid #e6eef9;padding-bottom:6px}
     .pv-block p{font-size:13px;color:#475569;line-height:1.45}
@@ -61,14 +43,8 @@
     .pv-section h3{font-size:14px;color:#0f172a;border-bottom:1px solid #e6eef9;padding-bottom:6px;margin-bottom:8px}
     .pv-section p{font-size:14px;color:#334155;line-height:1.5;margin-bottom:6px}
     .pv-item{margin-bottom:10px}
-
     .preview-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:12px}
     .preview-actions button{min-width:160px}
-
-    /* AD modal */
-    .ad-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(3px);justify-content:center;align-items:center;z-index:1300}
-    .ad-card{width:880px;max-width:96%;background:#fff;padding:18px;border-radius:10px;box-shadow:0 10px 40px rgba(2,6,23,0.15);position:relative}
-    .close-ad{position:absolute;top:12px;right:12px;background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer}
 
     @media(max-width:1000px){ .preview-wrapper{transform:scale(0.46)} }
     @media(max-width:640px){ body{padding:18px} .container{padding:18px} }
@@ -86,24 +62,12 @@
 
     <section class="section">
       <div class="section-title">DADOS PESSOAIS</div>
-      
-      <label>Nome</label>
-      <input id="nome">
-
-      <label>Foto para o currículo</label>
-      <input type="file" id="foto" accept="image/*">
-
-      <label>Profissão</label>
-      <input id="profissao">
-
-      <label>E-mail</label>
-      <input id="email">
-
-      <label>Telefone</label>
-      <input id="telefone">
-
-      <label>Endereço</label>
-      <input id="endereco">
+      <label>Nome</label><input id="nome">
+      <label>Foto para o currículo</label><input type="file" id="foto" accept="image/*">
+      <label>Profissão</label><input id="profissao">
+      <label>E-mail</label><input id="email">
+      <label>Telefone</label><input id="telefone">
+      <label>Endereço</label><input id="endereco">
     </section>
 
     <section class="section">
@@ -216,122 +180,143 @@
       return e;
     }
 
-    // adicionar blocos
-    document.getElementById('addFormacao').onclick = () => {
-      const box = document.createElement('div');
+    // INPUTS
+    const nomeInput=document.getElementById('nome');
+    const profissaoInput=document.getElementById('profissao');
+    const emailInput=document.getElementById('email');
+    const telefoneInput=document.getElementById('telefone');
+    const enderecoInput=document.getElementById('endereco');
+    const objetivoInput=document.getElementById('objetivo');
+    const habilidadesInput=document.getElementById('habilidades');
+    const fotoInput=document.getElementById('foto');
+
+    // PREVIEW
+    const previewModal=document.getElementById('previewModal');
+    const closePreview=document.getElementById('closePreview');
+    const pv_nome=document.getElementById('pv_nome');
+    const pv_cargo=document.getElementById('pv_cargo');
+    const pv_contato=document.getElementById('pv_contato');
+    const pv_objetivo=document.getElementById('pv_objetivo');
+    const pv_habilidades=document.getElementById('pv_habilidades');
+    const pvFoto=document.getElementById('pv_foto');
+    const pvFormacoes=document.getElementById('pv_formacoes');
+    const pvExperiencias=document.getElementById('pv_experiencias');
+    const pvIdiomas=document.getElementById('pv_idiomas');
+
+    const formacoesList=document.getElementById('formacoesList');
+    const experienciasList=document.getElementById('experienciasList');
+
+    const btnGerar=document.getElementById('btnGerar');
+    const watchAd=document.getElementById('watchAd');
+    const downloadPdf=document.getElementById('downloadPdf');
+
+    // ADICIONAR NOVOS ITENS
+    document.getElementById('addFormacao').onclick=()=>{
+      const box=document.createElement('div');
       box.className='repeat';
-      box.innerHTML = '<input class="formacao-curso"><input class="formacao-instituicao"><input class="formacao-ano">';
+      box.innerHTML='<input class="formacao-curso"><input class="formacao-instituicao"><input class="formacao-ano">';
       formacoesList.appendChild(box);
     };
 
-    document.getElementById('addExperiencia').onclick = () => {
-      const box = document.createElement('div');
+    document.getElementById('addExperiencia').onclick=()=>{
+      const box=document.createElement('div');
       box.className='repeat';
-      box.innerHTML = '<input class="exp-empresa"><input class="exp-cargo"><textarea class="exp-desc"></textarea>';
+      box.innerHTML='<input class="exp-empresa"><input class="exp-cargo"><textarea class="exp-desc"></textarea>';
       experienciasList.appendChild(box);
     };
 
-    // abrir preview
-    btnGerar.onclick = () => {
+    // FOTO
+    fotoInput.addEventListener("change", function(){
+      const file=this.files[0];
+      if(!file){
+        pvFoto.style.backgroundImage='none';
+        pvFoto.innerText='FOTO';
+        return;
+      }
+      const reader=new FileReader();
+      reader.onload=function(e){
+        pvFoto.style.backgroundImage=`url(${e.target.result})`;
+        pvFoto.innerText='';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // GERAR CURRÍCULO
+    btnGerar.onclick=()=>{
       preencherPreview();
       previewModal.style.display='flex';
     };
 
-    closePreview.onclick = () => previewModal.style.display='none';
+    closePreview.onclick=()=>previewModal.style.display='none';
 
     function preencherPreview(){
+      pv_nome.innerText=nomeInput.value || "Seu Nome Aqui";
+      pv_cargo.innerText=profissaoInput.value || "";
+      pv_objetivo.innerText=objetivoInput.value || "";
+      pv_habilidades.innerText=habilidadesInput.value || "";
 
-      const nome = nomeInput.value;
-      const profissao = profissaoInput.value;
-      const email = emailInput.value;
-      const telefone = telefoneInput.value;
-      const endereco = enderecoInput.value;
-      const objetivo = objetivoInput.value;
-      const habilidades = habilidadesInput.value;
+      let contato="";
+      if(telefoneInput.value) contato+="☎ "+telefoneInput.value+"<br>";
+      if(emailInput.value) contato+="✉ "+emailInput.value+"<br>";
+      if(enderecoInput.value) contato+="📍 "+enderecoInput.value;
+      pv_contato.innerHTML=contato;
 
-      pv_nome.innerText = nome || "Seu Nome Aqui";
-      pv_cargo.innerText = profissao;
-      pv_objetivo.innerText = objetivo;
-      pv_habilidades.innerText = habilidades;
-
-      let contato = "";
-      if(telefone) contato += "☎ " + telefone + "<br>";
-      if(email) contato += "✉ " + email + "<br>";
-      if(endereco) contato += "📍 " + endereco;
-      pv_contato.innerHTML = contato;
-
-      // FOTO
-      const inputFoto = document.getElementById('foto');
-      const pvFoto = document.getElementById('pv_foto');
-
-      if(inputFoto.files && inputFoto.files[0]){
-        const reader = new FileReader();
-        reader.onload = e => {
-          pvFoto.style.backgroundImage = `url(${e.target.result})`;
-          pvFoto.innerText = "";
-        };
-        reader.readAsDataURL(inputFoto.files[0]);
-      } else {
+      if(!fotoInput.files[0]){
         pvFoto.style.backgroundImage='none';
         pvFoto.innerText='FOTO';
       }
 
       // FORMAÇÕES
-      pv_formacoes.innerHTML='';
+      pvFormacoes.innerHTML='';
       document.querySelectorAll('#formacoesList .repeat').forEach(f=>{
         const curso=f.querySelector('.formacao-curso').value;
         const inst=f.querySelector('.formacao-instituicao').value;
         const ano=f.querySelector('.formacao-ano').value;
-
         if(curso||inst||ano){
           const div=el('div','pv-item');
-          div.innerHTML=`<strong>${curso}</strong><div style="font-size:13px;color:#475569">${inst} ${ano?(" • "+ano):""}</div>`;
-          pv_formacoes.appendChild(div);
+          div.innerHTML=`<strong>${curso}</strong><div style="font-size:13px;color:#475569">${inst}${ano?(" • "+ano):""}</div>`;
+          pvFormacoes.appendChild(div);
         }
       });
 
       // EXPERIÊNCIAS
-      pv_experiencias.innerHTML='';
+      pvExperiencias.innerHTML='';
       document.querySelectorAll('#experienciasList .repeat').forEach(exp=>{
         const emp=exp.querySelector('.exp-empresa').value;
         const cargo=exp.querySelector('.exp-cargo').value;
         const desc=exp.querySelector('.exp-desc').value;
-
         if(emp||cargo||desc){
           const div=el('div','pv-item');
           div.innerHTML=`<strong>${cargo} — ${emp}</strong><div style="font-size:13px;color:#475569;margin-top:6px">${desc.replace(/\n/g,'<br>')}</div>`;
-          pv_experiencias.appendChild(div);
+          pvExperiencias.appendChild(div);
         }
       });
 
-      pv_idiomas.innerText = "Português — Nativo";
+      pvIdiomas.innerText="Português — Nativo";
     }
 
+    // ANÚNCIO SIMULADO
     let adWatched=false;
-    watchAd.onclick = () => {
-      setTimeout(() => {
+    watchAd.onclick=()=>{
+      setTimeout(()=>{
         adWatched=true;
         downloadPdf.disabled=false;
-      }, 3000);
+      },3000);
     };
 
-    downloadPdf.onclick = async () => {
+    downloadPdf.onclick=async()=>{
       if(!adWatched) return alert("Assista ao anúncio antes!");
-
-      const a4 = document.getElementById('a4Sheet');
-      const canvas = await html2canvas(a4, {scale:2, useCORS:true});
-      const img = canvas.toDataURL("image/png");
-
-      const pdf = new jspdf.jsPDF("p","pt","a4");
-      const w = pdf.internal.pageSize.getWidth();
-      const h = pdf.internal.pageSize.getHeight();
-
+      const a4=document.getElementById('a4Sheet');
+      const canvas=await html2canvas(a4,{scale:2,useCORS:true});
+      const img=canvas.toDataURL("image/png");
+      const pdf=new jspdf.jsPDF("p","pt","a4");
+      const w=pdf.internal.pageSize.getWidth();
+      const h=pdf.internal.pageSize.getHeight();
       pdf.addImage(img,"PNG",0,0,w,h);
-      pdf.save((nomeInput.value || "curriculo")+".pdf");
+      pdf.save((nomeInput.value||"curriculo")+".pdf");
     };
 
   })();
   </script>
-
 </body>
 </html>
