@@ -1,0 +1,89 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: #f6f7f9;
+    padding: 20px;
+}
+
+section {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+}
+
+h2.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+h2.section-title .num {
+    background: #e8edf4;
+    color: #2d4b73;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: block;
+    color: #303030;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d5d8df;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    background: #fff;
+    font-size: 16px;
+}
+
+/* Botão principal */
+button.gerar {
+    width: 100%;
+    padding: 18px;
+    background: #48bb78;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+button.gerar:hover {
+    background: #3fa86b;
+}
+
+/* Botão de adicionar novo campo */
+.add-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+    color: #2c5282;
+    cursor: pointer;
+    margin-bottom: 18px;
+}
+
+.add-btn i {
+    background: #e2e8f0;
+    padding: 6px;
+    border-radius: 6px;
+}
