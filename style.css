@@ -6,120 +6,139 @@
   font-family: "Inter", sans-serif;
 }
 
+/* === Fundo com degradê moderno === */
 body {
-  background: #f3f4f6;
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff, #fdf2f8);
+  min-height: 100vh;
+  padding: 50px 20px;
   display: flex;
   justify-content: center;
-  padding: 40px 10px;
+  align-items: flex-start;
 }
 
-/* === Container central === */
+/* === Container elegante === */
 .container {
   width: 100%;
-  max-width: 760px;
+  max-width: 780px;
   background: #ffffff;
-  padding: 32px;
-  border-radius: 14px;
-  box-shadow: 0 3px 25px rgba(0, 0, 0, 0.08);
+  padding: 38px;
+  border-radius: 18px;
+  box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.08),
+      0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f1f1;
+  animation: fadeIn 0.6s ease-in-out;
 }
 
-/* Título */
+/* Animação suave ao aparecer */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Título Premium === */
 .container h1 {
-  font-size: 26px;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 25px;
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #4f46e5, #9333ea);
+  -webkit-background-clip: text;
+  color: transparent;
   text-align: center;
+  margin-bottom: 28px;
 }
 
-/* === Formulário === */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
+/* === Seções em cartões === */
+.section {
+  background: #f8fafc;
+  padding: 22px 24px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.02);
+  margin-bottom: 18px;
+  transition: 0.2s;
+}
+
+.section:hover {
+  background: #f1f5f9;
+  border-color: #c7d2fe;
+}
+
+/* Títulos das seções */
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 14px;
 }
 
 /* Labels */
 label {
   font-weight: 600;
-  margin-bottom: 6px;
-  color: #374151;
+  color: #475569;
   display: block;
+  margin-bottom: 6px;
 }
 
-/* Inputs */
+/* Inputs elegantes */
 input,
-textarea,
-select {
+select,
+textarea {
   width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
+  padding: 13px 14px;
+  background: #fff;
+  border: 1px solid #d0d7e3;
+  border-radius: 12px;
   font-size: 14px;
-  color: #111827;
-  background: #f9fafb;
-  transition: all 0.2s;
+  color: #1e293b;
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
 }
 
 input:focus,
 textarea:focus {
   border-color: #6366f1;
-  background: #fff;
+  box-shadow: 0 0 0 3px rgba(99,102,241,.2);
   outline: none;
 }
 
-/* Botões */
+/* === Botões === */
 button {
-  padding: 14px;
-  font-size: 16px;
-  border-radius: 10px;
-  border: none;
   cursor: pointer;
   font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 16px;
+  transition: 0.2s;
+  width: 100%;
 }
 
 .btn-primary {
-  background: #4f46e5;
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
   color: white;
-  transition: 0.2s;
 }
 
 .btn-primary:hover {
-  background: #4338ca;
+  opacity: 0.92;
+  transform: translateY(-2px);
 }
 
 .btn-secondary {
-  background: #e5e7eb;
-  color: #111827;
-  transition: 0.2s;
+  background: #e2e8f0;
+  color: #334155;
 }
 
 .btn-secondary:hover {
-  background: #d1d5db;
+  background: #cbd5e1;
 }
 
-/* === Seções organizadas === */
-.section {
-  background: #f9fafb;
-  padding: 18px 20px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-}
-
-.section-title {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  color: #1f2937;
-}
-
-/* === A4 Preview (quando criarmos a pré-visualização) === */
+/* === Preview A4 (depois vamos ativar) === */
 #preview {
   width: 21cm;
   min-height: 29.7cm;
   background: white;
   margin: 20px auto;
   padding: 40px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.15);
+  box-shadow: 0 0 25px rgba(0,0,0,0.15);
   display: none;
 }
