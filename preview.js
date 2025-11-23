@@ -172,5 +172,24 @@
     tag.src = "https://www.youtube.com/iframe_api";
     document.head.appendChild(tag);
   })();
+// FOTO — carregar e exibir no preview
+document.getElementById('foto').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
 
+  const reader = new FileReader();
+  reader.onload = function(evt){
+    const img = document.createElement('img');
+    img.src = evt.target.result;
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.objectFit = "cover";
+    img.style.borderRadius = "999px";
+
+    const pv = document.getElementById('pv_foto');
+    pv.innerHTML = "";
+    pv.appendChild(img);
+  }
+  reader.readAsDataURL(file);
+});
 })();
