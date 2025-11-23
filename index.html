@@ -6,116 +6,37 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Gerador de Currículo — Demo</title>
   <style>
-    :root{
-      --accent:#1e40af;
-      --accent-hover:#1e3a8a;
-      --border:#e5e7eb;
-      --text:#1f2937;
-      --muted:#6b7280;
-      --bg:#ffffff;
-      --bg-soft:#f9fafb;
-      --radius:8px;
-    }
-    body{
-      margin:0;
-      font-family:"Inter",Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg-soft);
-      color:var(--text);
-    }
-    .container{
-      max-width:1100px;
-      margin:40px auto;
-      padding:32px;
-      background:var(--bg);
-      border-radius:var(--radius);
-      border:1px solid var(--border);
-    }
-    h1{
-      margin:0 0 8px;
-      font-size:26px;
-      font-weight:600;
-      color:var(--text);
-    }
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 380px;
-      gap:32px;
-      margin-top:24px;
-    }label{
-  font-size:14px;
-  font-weight:500;
-  color:var(--text);
-  margin-bottom:6px;
-  display:block;
-}
-input,textarea,select{
-  width:100%;
-  padding:12px;
-  border-radius:var(--radius);
-  border:1px solid var(--border);
-  font-size:14px;
-  background:#fff;
-  color:var(--text);
-}
-textarea{min-height:90px}
+  body {
+    font-family: "Inter", sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+  }header { background: #0056d6; color: #fff; width: 100%; text-align: center; padding: 22px 0; font-size: 26px; font-weight: 700; letter-spacing: 0.4px; }
 
-.btn{
-  background:var(--accent);
-  border:none;
-  padding:12px 18px;
-  border-radius:var(--radius);
-  color:#fff;
-  font-size:14px;
-  cursor:pointer;
-  transition:.2s;
-}
-.btn:hover{background:var(--accent-hover)}
-.btn:disabled{opacity:.6;cursor:not-allowed}
+.container { width: 90%; max-width: 900px; background: #fff; padding: 28px; margin-top: 25px; border-radius: 14px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); }
 
-.preview{
-  border-left:1px solid var(--border);
-  padding-left:24px;
-}
-.cv{
-  background:#fff;
-  padding:24px;
-  border-radius:var(--radius);
-  border:1px solid var(--border);
-}
+.section-title { font-size: 20px; margin-top: 25px; font-weight: 600; color: #222; }
 
-footer{
-  margin-top:32px;
-  text-align:center;
-  font-size:13px;
-  color:var(--muted);
-}
+label { display: block; margin-top: 12px; font-weight: 500; }
 
-/* Modal anúncio */
-.ad-modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.55);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-.ad-card{
-  background:#fff;
-  width:880px;
-  max-width:100%;
-  padding:24px;
-  border-radius:var(--radius);
-  border:1px solid var(--border);
-}
-.ad-controls{display:flex;justify-content:flex-end;margin-top:12px;gap:10px}
+input, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #d8dce1; border-radius: 8px; font-size: 15px; background: #fafafa; }
 
-@media(max-width:900px){
-  .grid{grid-template-columns:1fr}
-  .preview{border-left:none;border-top:1px solid var(--border);padding-top:24px}
-}
+input:focus, textarea:focus { outline: none; border-color: #0056d6; background: #fff; transition: 0.2s; }
 
-  </style>
+button { margin-top: 25px; padding: 14px 22px; background: #0056d6; color: white; border: none; border-radius: 10px; font-size: 17px; cursor: pointer; font-weight: 600; width: 100%; }
+
+button:hover { background: #0043a8; }
+
+#curriculoOutput { background: #fff; padding: 25px; margin-top: 30px; border-radius: 14px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); display: none; }
+
+.divider { height: 2px; background: #0056d6; width: 100%; margin: 18px 0; border-radius: 5px; }
+
+#adSection { text-align: center; margin-top: 25px; padding: 20px; background: #eaf1ff; border-radius: 12px; border: 1px solid #bcd1ff; display: none; } </style>
+
 </head>
 <body>
   <div class="container">
