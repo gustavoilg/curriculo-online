@@ -1,112 +1,135 @@
-<section>
-    <h2 class="section-title">
-        <span class="num">1.</span> QUAL A SUA SITUAÇÃO ATUAL?
-    </h2>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Currículo</title>
 
-    <label for="situacao">Isso é importante para gerar o currículo mais adequado:</label>
-    <select id="situacao">
-        <option value="">Selecione</option>
-        <option value="empregado">Empregado</option>
-        <option value="desempregado">Desempregado</option>
-        <option value="primeiro-emprego">Buscando o primeiro emprego</option>
-    </select>
-</section>
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
 
-<section>
-    <h2 class="section-title">
-        <span class="num">2.</span> DADOS PESSOAIS
-    </h2>
+<body>
 
-    <label>Nome Completo:</label>
-    <input type="text" id="nome">
+    <div class="container">
 
-    <label>Nacionalidade:</label>
-    <input type="text" id="nacionalidade">
+        <h1 class="titulo-principal">Gerador de Currículo Profissional</h1>
+        <p class="subtitulo">Preencha os campos abaixo e gere seu currículo moderno e profissional.</p>
 
-    <label>Sexo:</label>
-    <select id="sexo">
-        <option>Masculino</option>
-        <option>Feminino</option>
-        <option>Outro</option>
-    </select>
+        <!-- FORMULÁRIO -->
+        <section>
+            <h2 class="section-title">
+                <span class="num">1.</span> QUAL A SUA SITUAÇÃO ATUAL?
+            </h2>
 
-    <label>Idade:</label>
-    <input type="number" id="idade">
+            <label for="situacao">Isso é importante para gerar o currículo mais adequado:</label>
+            <select id="situacao">
+                <option value="">Selecione</option>
+                <option value="empregado">Empregado</option>
+                <option value="desempregado">Desempregado</option>
+                <option value="primeiro-emprego">Buscando o primeiro emprego</option>
+            </select>
+        </section>
 
-    <label>Estado Civil:</label>
-    <select id="civil">
-        <option>Solteiro</option>
-        <option>Casado</option>
-        <option>Divorciado</option>
-    </select>
-</section>
+        <section>
+            <h2 class="section-title">
+                <span class="num">2.</span> DADOS PESSOAIS
+            </h2>
 
-<section>
-    <h2 class="section-title">
-        <span class="num">3.</span> OBJETIVO
-    </h2>
+            <label>Nome Completo:</label>
+            <input type="text" id="nome">
 
-    <textarea id="objetivo" rows="3"></textarea>
-</section>
+            <label>Nacionalidade:</label>
+            <input type="text" id="nacionalidade">
 
-<section>
-    <h2 class="section-title">
-        <span class="num">4.</span> FORMAÇÃO ACADÊMICA
-    </h2>
+            <label>Sexo:</label>
+            <select id="sexo">
+                <option>Masculino</option>
+                <option>Feminino</option>
+                <option>Outro</option>
+            </select>
 
-    <label>Curso:</label>
-    <input type="text">
+            <label>Idade:</label>
+            <input type="number" id="idade">
 
-    <label>Instituição:</label>
-    <input type="text">
+            <label>Estado Civil:</label>
+            <select id="civil">
+                <option>Solteiro</option>
+                <option>Casado</option>
+                <option>Divorciado</option>
+            </select>
+        </section>
 
-    <label>Ano de Conclusão:</label>
-    <input type="number">
+        <section>
+            <h2 class="section-title">
+                <span class="num">3.</span> OBJETIVO
+            </h2>
+            <textarea id="objetivo" rows="3"></textarea>
+        </section>
 
-    <div class="add-btn">
-        <i>+</i> Adicionar outro curso
+        <section>
+            <h2 class="section-title">
+                <span class="num">4.</span> FORMAÇÃO ACADÊMICA
+            </h2>
+
+            <label>Curso:</label>
+            <input type="text">
+
+            <label>Instituição:</label>
+            <input type="text">
+
+            <label>Ano de Conclusão:</label>
+            <input type="number">
+
+            <div class="add-btn">
+                <i>+</i> Adicionar outro curso
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">
+                <span class="num">5.</span> EXPERIÊNCIA PROFISSIONAL
+            </h2>
+
+            <label>Empresa:</label>
+            <input type="text">
+
+            <label>Cargo:</label>
+            <input type="text">
+
+            <label>Descrição:</label>
+            <textarea rows="3"></textarea>
+
+            <div class="add-btn">
+                <i>+</i> Adicionar outra experiência
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">
+                <span class="num">6.</span> QUALIFICAÇÕES
+            </h2>
+            <textarea rows="3"></textarea>
+
+            <div class="add-btn">
+                <i>+</i> Adicionar outra qualificação
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">
+                <span class="num">7.</span> INFORMAÇÕES ADICIONAIS
+            </h2>
+            <textarea rows="3"></textarea>
+
+            <div class="add-btn">
+                <i>+</i> Adicionar outra informação
+            </div>
+        </section>
+
+        <button class="gerar">Gerar Meu Currículo</button>
+
     </div>
-</section>
 
-<section>
-    <h2 class="section-title">
-        <span class="num">5.</span> EXPERIÊNCIA PROFISSIONAL
-    </h2>
-
-    <label>Empresa:</label>
-    <input type="text">
-
-    <label>Cargo:</label>
-    <input type="text">
-
-    <label>Descrição:</label>
-    <textarea rows="3"></textarea>
-
-    <div class="add-btn">
-        <i>+</i> Adicionar outra experiência
-    </div>
-</section>
-
-<section>
-    <h2 class="section-title">
-        <span class="num">6.</span> QUALIFICAÇÕES
-    </h2>
-    <textarea rows="3"></textarea>
-
-    <div class="add-btn">
-        <i>+</i> Adicionar outra qualificação
-    </div>
-</section>
-
-<section>
-    <h2 class="section-title">
-        <span class="num">7.</span> INFORMAÇÕES ADICIONAIS
-    </h2>
-    <textarea rows="3"></textarea>
-
-    <div class="add-btn">
-        <i>+</i> Adicionar outra informação
-    </div>
-</section>
-
-<button class="gerar">Gerar Meu Currículo</button>
+</body>
+</html>
