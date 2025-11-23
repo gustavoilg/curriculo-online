@@ -42,3 +42,32 @@ document.querySelector(".gerar").addEventListener("click", function () {
 document.getElementById("fecharPreview").addEventListener("click", function () {
     document.getElementById("preview-overlay").style.display = "none";
 });
+// Abrir prévia
+function gerarCurriculo() {
+
+    // PEGAR DADOS DO FORMULÁRIO
+    const nome = document.getElementById("nome")?.value || "";
+    const situacao = document.getElementById("situacao")?.value || "";
+    const nacionalidade = document.getElementById("nacionalidade")?.value || "";
+    const sexo = document.getElementById("sexo")?.value || "";
+    const idade = document.getElementById("idade")?.value || "";
+    const civil = document.getElementById("civil")?.value || "";
+    const objetivo = document.getElementById("objetivo")?.value || "";
+
+    // ENVIAR PARA A PREVIEW
+    document.getElementById("p_nome").innerText = nome;
+    document.getElementById("p_situacao").innerText = situacao;
+    document.getElementById("p_nacionalidade").innerText = nacionalidade;
+    document.getElementById("p_sexo").innerText = sexo;
+    document.getElementById("p_idade").innerText = idade;
+    document.getElementById("p_civil").innerText = civil;
+    document.getElementById("p_objetivo").innerText = objetivo;
+
+    // MOSTRAR O MODAL COM A FOLHA A4
+    document.getElementById("previewModal").style.display = "flex";
+}
+
+// Fechar prévia
+function closePreview() {
+    document.getElementById("previewModal").style.display = "none";
+}
