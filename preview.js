@@ -1,94 +1,176 @@
-document.querySelector(".gerar").addEventListener("click", function () {
-    // Abrir preview
-    document.getElementById("preview-overlay").style.display = "flex";
+// preview.js
+// Observações: IDs no index.html devem bater com estes usados abaixo.
 
-    // Preencher nome
-    document.getElementById("pv-nome").textContent =
-        document.getElementById("nome").value || "Seu Nome Aqui";
+(function(){
+  // util: cria elemento com texto (para lista dinâmica)
+  function el(tag, cls, txt){ const e = document.createElement(tag); if(cls) e.className = cls; if(txt!==undefined) e.innerText = txt; return e; }
 
-    // Informações pessoais
-    const idade = document.getElementById("idade").value;
-    const sexo = document.getElementById("sexo").value;
-    const civil = document.getElementById("civil").value;
-    const nacionalidade = document.getElementById("nacionalidade").value;
+  // adicionar comportamento para adicionar formações/experiências
+  document.getElementById('addFormacao')?.addEventListener('click', function(){
+    const box = document.createElement('div'); box.className = 'repeat';
+    box.innerHTML = '<input class="formacao-curso" placeholder="Curso (ex: Engenharia Civil)"><input class="formacao-instituicao" placeholder="Instituição"><input class="formacao-ano" placeholder="Ano (ex: 2018)">';
+    document.getElementById('formacoesList').appendChild(box);
+  });
 
-    document.getElementById("pv-infos").textContent =
-        `${idade} anos • ${sexo} • ${civil} • ${nacionalidade}`;
+  document.getElementById('addExperiencia')?.addEventListener('click', function(){
+    const box = document.createElement('div'); box.className = 'repeat';
+    box.innerHTML = '<input class="exp-empresa" placeholder="Empresa"><input class="exp-cargo" placeholder="Cargo"><textarea class="exp-desc" rows="3" placeholder="Descrição / responsabilidades"></textarea>';
+    document.getElementById('experienciasList').appendChild(box);
+  });
 
-    // Objetivo
-    document.getElementById("pv-objetivo").textContent =
-        document.getElementById("objetivo").value;
+  // abrir preview preenchendo dados
+  document.getElementById('btnGerar').addEventListener('click', function(){
+    preencherPreview();
+    document.getElementById('previewModal').style.display = 'flex';
+  });
 
-    // Formação
-    const formacao = document.querySelectorAll("section:nth-of-type(4) input");
-    document.getElementById("pv-formacao").textContent =
-        `${formacao[0].value} — ${formacao[1].value} (Conclusão: ${formacao[2].value})`;
+  document.getElementById('closePreview').addEventListener('click', function(){ document.getElementById('previewModal').style.display = 'none'; });
 
-    // Experiência
-    const experiencia = document.querySelectorAll("section:nth-of-type(5) input, section:nth-of-type(5) textarea");
-    document.getElementById("pv-experiencia").textContent =
-        `${experiencia[0].value} — ${experiencia[1].value}\n${experiencia[2].value}`;
+  // funções para abrir/fechar ad
+  document.getElementById('watchAd').addEventListener('click', openAdModal);
+  document.getElementById('closeAd').addEventListener('click', closeAdModal);
 
-    // Qualificações
-    document.getElementById("pv-qualificacoes").textContent =
-        document.querySelector("section:nth-of-type(6) textarea").value;
+  // YouTube API: criamos player para simulação (será o "anúncio")
+  let player;
+  window.onYouTubeIframeAPIReady = function(){ /* no-op */ };
+  function loadYT(){
+    if(window.YT && window.YT.Player) return;
+    const s = document.createElement('script'); s.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(s);
+  }
 
-    // Adicionais
-    document.getElementById("pv-adicionais").textContent =
-        document.querySelector("section:nth-of-type(7) textarea").value;
-});
+  // preencher preview (popula A4)
+  function preencherPreview(){
+    // Pessoais
+    const nome = document.getElementById('nome')?.value || '';
+    const profissao = document.getElementById('profissao')?.value || '';
+    const email = document.getElementById('email')?.value || '';
+    const telefone = document.getElementById('telefone')?.value || '';
+    const endereco = document.getElementById('endereco')?.value || '';
+    const objetivo = document.getElementById('objetivo')?.value || '';
+    const habilidades = document.getElementById('habilidades')?.value || '';
 
-// Fechar preview
-document.getElementById("fecharPreview").addEventListener("click", function () {
-    document.getElementById("preview-overlay").style.display = "none";
-});
-// Abrir prévia
-function gerarCurriculo() {
+    document.getElementById('pv_nome').innerText = nome || 'Seu Nome Aqui';
+    document.getElementById('pv_cargo').innerText = profissao || '';
+    document.getElementById('pv_objetivo').innerText = objetivo || '';
+    document.getElementById('pv_habilidades').innerText = habilidades || '';
 
-    // PEGAR DADOS DO FORMULÁRIO
-    const nome = document.getElementById("nome")?.value || "";
-    const situacao = document.getElementById("situacao")?.value || "";
-    const nacionalidade = document.getElementById("nacionalidade")?.value || "";
-    const sexo = document.getElementById("sexo")?.value || "";
-    const idade = document.getElementById("idade")?.value || "";
-    const civil = document.getElementById("civil")?.value || "";
-    const objetivo = document.getElementById("objetivo")?.value || "";
+    // contato left
+    const contatoHtml = [];
+    if(telefone) contatoHtml.push('☎ ' + telefone);
+    if(email) contatoHtml.push('✉ ' + email);
+    if(endereco) contatoHtml.push('📍 ' + endereco);
+    document.getElementById('pv_contato').innerHTML = contatoHtml.join('<br>');
 
-    // ENVIAR PARA A PREVIEW
-    document.getElementById("p_nome").innerText = nome;
-    document.getElementById("p_situacao").innerText = situacao;
-    document.getElementById("p_nacionalidade").innerText = nacionalidade;
-    document.getElementById("p_sexo").innerText = sexo;
-    document.getElementById("p_idade").innerText = idade;
-    document.getElementById("p_civil").innerText = civil;
-    document.getElementById("p_objetivo").innerText = objetivo;
+    // formações
+    const formacoes = document.querySelectorAll('#formacoesList .repeat');
+    const contForm = document.getElementById('pv_formacoes');
+    contForm.innerHTML = '';
+    formacoes.forEach(f =>{
+      const curso = f.querySelector('.formacao-curso')?.value || '';
+      const inst = f.querySelector('.formacao-instituicao')?.value || '';
+      const ano = f.querySelector('.formacao-ano')?.value || '';
+      if(curso || inst || ano){
+        const div = el('div','pv-item');
+        div.innerHTML = `<strong>${curso}</strong><div style="font-size:13px;color:#475569">${inst}${ano?' • '+ano:''}</div>`;
+        contForm.appendChild(div);
+      }
+    });
 
-    // MOSTRAR O MODAL COM A FOLHA A4
-    document.getElementById("previewModal").style.display = "flex";
-}
+    // experiencias
+    const exps = document.querySelectorAll('#experienciasList .repeat');
+    const contExp = document.getElementById('pv_experiencias');
+    contExp.innerHTML = '';
+    exps.forEach(e=>{
+      const emp = e.querySelector('.exp-empresa')?.value || '';
+      const cargo = e.querySelector('.exp-cargo')?.value || '';
+      const desc = e.querySelector('.exp-desc')?.value || '';
+      if(emp || cargo || desc){
+        const container = el('div','pv-item');
+        container.innerHTML = `<strong>${cargo} — ${emp}</strong><div style="font-size:13px;color:#475569;margin-top:6px">${desc.replace(/\n/g,'<br>')}</div>`;
+        contExp.appendChild(container);
+      }
+    });
 
-// Fechar prévia
-function closePreview() {
-    document.getElementById("previewModal").style.display = "none";
-}
-function gerarCurriculo() {
-    // DADOS PESSOAIS
-    document.getElementById("p_nome").innerText = document.getElementById("nome").value;
-    document.getElementById("p_situacao").innerText = document.getElementById("situacao").value;
-    document.getElementById("p_nacionalidade").innerText = document.getElementById("nacionalidade").value;
-    document.getElementById("p_sexo").innerText = document.getElementById("sexo").value;
-    document.getElementById("p_idade").innerText = document.getElementById("idade").value;
-    document.getElementById("p_civil").innerText = document.getElementById("civil").value;
+    // idiomas/habilidades (left)
+    document.getElementById('pv_idiomas').innerText = ''; // you can expand to take separate fields
+    document.getElementById('pv_habilidades').innerText = habilidades || '—';
+  }
 
-    // OBJETIVO
-    document.getElementById("p_objetivo").innerText = document.getElementById("objetivo").value;
+  // AD modal logic + PDF enabling
+  let adWatched = false;
+  function openAdModal(){
+    // open ad modal
+    document.getElementById('adModal').style.display = 'flex';
+    loadYT();
+    // create simple youtube player if not exists
+    if(!player && window.YT && window.YT.Player){
+      player = new YT.Player('player', {
+        height:'360', width:'100%', videoId: 'YE7VzlLtp-4', // exemplo
+        events:{
+          'onStateChange': function(e){
+            if(e.data === YT.PlayerState.ENDED){
+              adFinished();
+            }
+          }
+        }
+      });
+      // start when ready is fired by api
+      if(player.playVideo) try{ player.playVideo(); }catch(e){}
+    } else {
+      // if YT not ready yet, try to load iframe directly as fallback simple timer
+      setTimeout(()=>{ /* If YT unavailable, simulate ad end after 6s */ },0);
+    }
+  }
 
-    // As outras seções serão preenchidas depois (formação, experiência, qualificação)
+  function closeAdModal(){
+    document.getElementById('adModal').style.display = 'none';
+    try{ player && player.stopVideo(); }catch(e){}
+  }
 
-    // EXIBE A PRÉVIA
-    document.getElementById("previewModal").style.display = "flex";
-}
+  function adFinished(){
+    adWatched = true;
+    document.getElementById('adModal').style.display = 'none';
+    document.getElementById('downloadPdf').disabled = false;
+  }
 
-function closePreview() {
-    document.getElementById("previewModal").style.display = "none";
-}
+  // bind adDone button (fallback manual enable)
+  document.getElementById('adDone')?.addEventListener('click', function(){
+    adFinished();
+  });
+
+  // Download PDF: usar html2canvas + jsPDF
+  document.getElementById('downloadPdf').addEventListener('click', async function(){
+    if(!adWatched){ alert('Assista ao anúncio antes de baixar.'); return; }
+    const a4 = document.getElementById('a4Sheet');
+
+    // usar html2canvas com escala, depois inserir no jsPDF
+    const opts = { scale: 2, useCORS: true, logging:false };
+    const canvas = await html2canvas(a4, opts);
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+
+    // A4 dimensions in pt: 595.28 x 841.89 (portrait). We'll use PDF portrait standard A4.
+    const pdf = new jsPDF('p','pt','a4');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+
+    // scale image to fit width
+    const imgProps = { width: canvas.width, height: canvas.height };
+    const ratio = Math.min(pdfWidth / imgProps.width, pdfHeight / imgProps.height);
+    const w = imgProps.width * ratio;
+    const h = imgProps.height * ratio;
+    const x = (pdfWidth - w) / 2;
+    const y = 20;
+
+    pdf.addImage(imgData, 'PNG', x, y, w, h);
+    pdf.save((document.getElementById('nome').value || 'curriculo') + '.pdf');
+  });
+
+  // when page loads ensure youtube api script is loaded for ad simulation (but player only created on demand)
+  (function(){
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  })();
+
+})();
