@@ -1,242 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Currículo</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gerador de Currículo — Modelo Premium</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
+  <div class="container">
+    <h1 class="titulo-principal">Gerador de Currículo Profissional</h1>
+    <p class="subtitulo">Preencha abaixo → Clique em "Gerar Meu Currículo" → visualize em A4 → baixe após assistir o anúncio.</p>
 
-    <div class="container">
+    <!-- Seções do formulário (IDs devem bater com o preview.js) -->
+    <section class="section">
+      <h2 class="section-title"><span class="num">1.</span> DADOS PESSOAIS</h2>
+      <label>Nome Completo</label>
+      <input id="nome" type="text" placeholder="João da Silva">
 
-        <h1 class="titulo-principal">Gerador de Currículo Profissional</h1>
-        <p class="subtitulo">Preencha os campos abaixo e gere seu currículo moderno e profissional.</p>
+      <label>Profissão / Cargo</label>
+      <input id="profissao" type="text" placeholder="Engenheiro Civil">
 
-        <!-- FORMULÁRIO -->
-        <section>
-            <h2 class="section-title">
-                <span class="num">1.</span> QUAL A SUA SITUAÇÃO ATUAL?
-            </h2>
+      <label>E-mail</label>
+      <input id="email" type="email" placeholder="seu@email.com">
 
-            <label for="situacao">Isso é importante para gerar o currículo mais adequado:</label>
-            <select id="situacao">
-                <option value="">Selecione</option>
-                <option value="empregado">Empregado</option>
-                <option value="desempregado">Desempregado</option>
-                <option value="primeiro-emprego">Buscando o primeiro emprego</option>
-            </select>
-        </section>
+      <label>Telefone</label>
+      <input id="telefone" type="text" placeholder="(11) 9XXXX-XXXX">
 
-        <section>
-            <h2 class="section-title">
-                <span class="num">2.</span> DADOS PESSOAIS
-            </h2>
+      <label>Endereço (Cidade/Estado)</label>
+      <input id="endereco" type="text" placeholder="São Paulo / SP">
+    </section>
 
-            <label>Nome Completo:</label>
-            <input type="text" id="nome">
+    <section class="section">
+      <h2 class="section-title"><span class="num">2.</span> OBJETIVO / RESUMO</h2>
+      <textarea id="objetivo" rows="4" placeholder="Resumo profissional — exemplo: Engenheiro civil com..."></textarea>
+    </section>
 
-            <label>Nacionalidade:</label>
-            <input type="text" id="nacionalidade">
-
-            <label>Sexo:</label>
-            <select id="sexo">
-                <option>Masculino</option>
-                <option>Feminino</option>
-                <option>Outro</option>
-            </select>
-
-            <label>Idade:</label>
-            <input type="number" id="idade">
-
-            <label>Estado Civil:</label>
-            <select id="civil">
-                <option>Solteiro</option>
-                <option>Casado</option>
-                <option>Divorciado</option>
-            </select>
-        </section>
-
-        <section>
-            <h2 class="section-title">
-                <span class="num">3.</span> OBJETIVO
-            </h2>
-            <textarea id="objetivo" rows="3"></textarea>
-        </section>
-
-        <section>
-            <h2 class="section-title">
-                <span class="num">4.</span> FORMAÇÃO ACADÊMICA
-            </h2>
-
-            <label>Curso:</label>
-            <input type="text">
-
-            <label>Instituição:</label>
-            <input type="text">
-
-            <label>Ano de Conclusão:</label>
-            <input type="number">
-
-            <div class="add-btn">
-                <i>+</i> Adicionar outro curso
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">
-                <span class="num">5.</span> EXPERIÊNCIA PROFISSIONAL
-            </h2>
-
-            <label>Empresa:</label>
-            <input type="text">
-
-            <label>Cargo:</label>
-            <input type="text">
-
-            <label>Descrição:</label>
-            <textarea rows="3"></textarea>
-
-            <div class="add-btn">
-                <i>+</i> Adicionar outra experiência
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">
-                <span class="num">6.</span> QUALIFICAÇÕES
-            </h2>
-            <textarea rows="3"></textarea>
-
-            <div class="add-btn">
-                <i>+</i> Adicionar outra qualificação
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">
-                <span class="num">7.</span> INFORMAÇÕES ADICIONAIS
-            </h2>
-            <textarea rows="3"></textarea>
-
-            <div class="add-btn">
-                <i>+</i> Adicionar outra informação
-            </div>
-        </section>
-
-        <button class="gerar">Gerar Meu Currículo</button>
-
-    </div>
-<!-- ==================== PREVIEW A4 ==================== -->
-<div id="preview-overlay">
-    <div id="preview-box">
-        <button id="fecharPreview">✖</button>
-        <div id="preview-content">
-
-            <div class="cv-header">
-                <h1 id="pv-nome">Seu Nome Aqui</h1>
-                <p id="pv-infos"></p>
-            </div>
-
-            <div class="cv-section">
-                <h2>Objetivo</h2>
-                <p id="pv-objetivo"></p>
-            </div>
-
-            <div class="cv-section">
-                <h2>Formação Acadêmica</h2>
-                <p id="pv-formacao"></p>
-            </div>
-
-            <div class="cv-section">
-                <h2>Experiência Profissional</h2>
-                <p id="pv-experiencia"></p>
-            </div>
-
-            <div class="cv-section">
-                <h2>Qualificações</h2>
-                <p id="pv-qualificacoes"></p>
-            </div>
-
-            <div class="cv-section">
-                <h2>Informações Adicionais</h2>
-                <p id="pv-adicionais"></p>
-            </div>
-
+    <section class="section">
+      <h2 class="section-title"><span class="num">3.</span> FORMAÇÃO ACADÊMICA</h2>
+      <!-- Campos iniciais; o usuário pode adicionar mais com JS -->
+      <div id="formacoesList">
+        <div class="repeat">
+          <input class="formacao-curso" placeholder="Curso (ex: Engenharia Civil)">
+          <input class="formacao-instituicao" placeholder="Instituição">
+          <input class="formacao-ano" placeholder="Ano (ex: 2018)" type="text">
         </div>
-    </div>
-</div>
+      </div>
+      <div class="add-btn" id="addFormacao">+ Adicionar outro curso</div>
+    </section>
 
-<!-- Botão para abrir preview ao invés de gerar direto -->
-<script src="preview.js"></script>
-    <!-- PREVIEW A4 SOBREPOSTO -->
-<div id="previewModal" class="preview-modal">
-  <div class="preview-content">
-    <span class="close-preview" onclick="closePreview()">×</span>
+    <section class="section">
+      <h2 class="section-title"><span class="num">4.</span> EXPERIÊNCIA</h2>
+      <div id="experienciasList">
+        <div class="repeat">
+          <input class="exp-empresa" placeholder="Empresa">
+          <input class="exp-cargo" placeholder="Cargo">
+          <textarea class="exp-desc" rows="3" placeholder="Descrição / responsabilidades"></textarea>
+        </div>
+      </div>
+      <div class="add-btn" id="addExperiencia">+ Adicionar outra experiência</div>
+    </section>
 
-    <!-- MINIATURA DA FOLHA A4 -->
-    <div class="a4-sheet" id="a4Preview">
-      <h2 id="p_nome">Nome Sobrenome</h2>
-      <p id="p_profissao">Profissão</p>
-      <hr>
+    <section class="section">
+      <h2 class="section-title"><span class="num">5.</span> HABILIDADES / IDIOMAS</h2>
+      <textarea id="habilidades" rows="3" placeholder="Ex: AutoCAD, Revit, MS Project / Idiomas"></textarea>
+    </section>
 
-      <h3>Sobre Mim</h3>
-      <p id="p_sobre">Texto sobre mim...</p>
-
-      <h3>Experiência</h3>
-      <p id="p_exp"></p>
-
-      <h3>Educação</h3>
-      <p id="p_edu"></p>
+    <div style="display:flex;gap:12px;margin-top:12px;">
+      <button id="btnGerar" class="btn-primary">Gerar Meu Currículo</button>
     </div>
   </div>
-</div>
-    <!-- PREVIEW DO CURRÍCULO (A4) -->
-<div id="previewModal" class="preview-modal">
 
-    <div class="preview-content">
-        <span class="close-preview" onclick="closePreview()">✕</span>
+  <!-- PREVIEW A4 (modal) -->
+  <div id="previewModal" class="preview-modal" aria-hidden="true">
+    <div class="preview-wrapper">
+      <button id="closePreview" class="close-preview" title="Fechar">✕</button>
 
-        <div class="a4-sheet">
+      <!-- A4 sheet -->
+      <div class="a4-sheet" id="a4Sheet">
+        <!-- top bar -->
+        <div class="topbar"></div>
 
-            <!-- BARRA LATERAL -->
-            <div class="sidebar"></div>
+        <div class="sheet-inner">
+          <!-- left column -->
+          <aside class="left-col">
+            <div class="photo" id="pv_foto">Foto</div>
 
-            <!-- CONTEÚDO DO CURRÍCULO -->
-            <div class="resume-content">
-                
-                <h1 id="p_nome" class="resume-name">Seu Nome Aqui</h1>
-
-                <h2 class="resume-section">Informações Pessoais</h2>
-                <p><strong>Situação:</strong> <span id="p_situacao"></span></p>
-                <p><strong>Nacionalidade:</strong> <span id="p_nacionalidade"></span></p>
-                <p><strong>Sexo:</strong> <span id="p_sexo"></span></p>
-                <p><strong>Idade:</strong> <span id="p_idade"></span></p>
-                <p><strong>Estado Civil:</strong> <span id="p_civil"></span></p>
-
-                <h2 class="resume-section">Objetivo</h2>
-                <p id="p_objetivo"></p>
-
-                <h2 class="resume-section">Formação Acadêmica</h2>
-                <div id="p_formacao"></div>
-
-                <h2 class="resume-section">Experiência Profissional</h2>
-                <div id="p_experiencias"></div>
-
-                <h2 class="resume-section">Qualificações</h2>
-                <div id="p_qualificacoes"></div>
-
-                <h2 class="resume-section">Informações Adicionais</h2>
-                <div id="p_adicionais"></div>
-
+            <div class="pv-block">
+              <h4>CONTATO</h4>
+              <p id="pv_contato"></p>
             </div>
 
-        </div>
-    </div>
+            <div class="pv-block">
+              <h4>IDIOMAS</h4>
+              <p id="pv_idiomas"></p>
+            </div>
 
-</div>
+            <div class="pv-block">
+              <h4>HABILIDADES</h4>
+              <p id="pv_habilidades"></p>
+            </div>
+
+            <div class="pv-block">
+              <h4>INTERESSES</h4>
+              <p id="pv_interesses">Tecnologia • Leitura • Esportes</p>
+            </div>
+          </aside>
+
+          <!-- right column -->
+          <main class="right-col">
+            <header class="pv-header">
+              <h1 id="pv_nome">Nome Completo</h1>
+              <div id="pv_cargo" class="pv-cargo">Cargo / Profissão</div>
+            </header>
+
+            <section class="pv-section">
+              <h3>PERFIL PROFISSIONAL</h3>
+              <p id="pv_objetivo"></p>
+            </section>
+
+            <section class="pv-section">
+              <h3>EXPERIÊNCIA PROFISSIONAL</h3>
+              <div id="pv_experiencias"></div>
+            </section>
+
+            <section class="pv-section">
+              <h3>FORMAÇÃO ACADÊMICA</h3>
+              <div id="pv_formacoes"></div>
+            </section>
+          </main>
+        </div> <!-- sheet-inner -->
+      </div> <!-- a4-sheet -->
+
+      <div class="preview-actions">
+        <button id="watchAd" class="btn-secondary">Assistir anúncio (simulado)</button>
+        <button id="downloadPdf" class="btn-primary" disabled>Baixar PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANÚNCIO SIMULADO (modal simples com YouTube) -->
+  <div id="adModal" class="ad-modal" aria-hidden="true">
+    <div class="ad-card">
+      <button id="closeAd" class="close-ad">✕</button>
+      <div id="player" style="width:100%;height:360px;background:#000"></div>
+      <div style="text-align:right;margin-top:8px"><button id="adDone" class="btn-primary" disabled>Finalizar</button></div>
+    </div>
+  </div>
+
+  <!-- bibliotecas necessárias -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- preview + pdf script -->
+  <script src="preview.js"></script>
 </body>
 </html>
