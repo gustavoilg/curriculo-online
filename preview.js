@@ -1,6 +1,6 @@
 (function () {
 
-    // >>>>>>>>>> REFERÊNCIAS DOS INPUTS (correção que faltava) <<<<<<<<<<
+    // >>>>>>>>>> REFERÊNCIAS DOS INPUTS <<<<<<<<<<
     const nomeInput = document.getElementById('nome');
     const profissaoInput = document.getElementById('profissao');
     const emailInput = document.getElementById('email');
@@ -8,54 +8,143 @@
     const enderecoInput = document.getElementById('endereco');
     const objetivoInput = document.getElementById('objetivo');
     const habilidadesInput = document.getElementById('habilidades');
-    const fotoInput = document.getElementById('foto'); // campo de imagem
+    const fotoInput = document.getElementById('foto');
 
-    // Preview do currículo
-    const previewContainer = document.getElementById('curriculo-preview');
-    const previewNome = document.getElementById('preview-nome');
-    const previewProfissao = document.getElementById('preview-profissao');
-    const previewEmail = document.getElementById('preview-email');
-    const previewTelefone = document.getElementById('preview-telefone');
-    const previewEndereco = document.getElementById('preview-endereco');
-    const previewObjetivo = document.getElementById('preview-objetivo');
-    const previewHabilidades = document.getElementById('preview-habilidades');
+    // PREVIEW ELEMENTOS
+    const previewModal = document.getElementById('previewModal');
+    const closePreview = document.getElementById('closePreview');
+    const pvNome = document.getElementById('pv_nome');
+    const pvCargo = document.getElementById('pv_cargo');
+    const pvContato = document.getElementById('pv_contato');
+    const pvObjetivo = document.getElementById('pv_objetivo');
+    const pvHabilidades = document.getElementById('pv_habilidades');
+    const pvFoto = document.getElementById('pv_foto');
+    const pvFormacoes = document.getElementById('pv_formacoes');
+    const pvExperiencias = document.getElementById('pv_experiencias');
+    const pvIdiomas = document.getElementById('pv_idiomas');
 
-    // Foto no preview
-    const previewFoto = document.getElementById('preview-foto');
+    const formacoesList = document.getElementById('formacoesList');
+    const experienciasList = document.getElementById('experienciasList');
 
-    // Botão
     const btnGerar = document.getElementById('btnGerar');
+    const watchAd = document.getElementById('watchAd');
+    const downloadPdf = document.getElementById('downloadPdf');
 
-    // FOTO – carregar e exibir no preview
+    // >>>>>>>>>> ADICIONAR NOVAS FORMAÇÕES/EXPERIÊNCIAS <<<<<<<<<<
+    document.getElementById('addFormacao').onclick = () => {
+        const box = document.createElement('div');
+        box.className = 'repeat';
+        box.innerHTML = '<input class="formacao-curso"><input class="formacao-instituicao"><input class="formacao-ano">';
+        formacoesList.appendChild(box);
+    };
+
+    document.getElementById('addExperiencia').onclick = () => {
+        const box = document.createElement('div');
+        box.className = 'repeat';
+        box.innerHTML = '<input class="exp-empresa"><input class="exp-cargo"><textarea class="exp-desc"></textarea>';
+        experienciasList.appendChild(box);
+    };
+
+    // >>>>>>>>>> CARREGAR FOTO NO PREVIEW <<<<<<<<<<
     fotoInput.addEventListener("change", function () {
         const file = this.files[0];
-        if (!file) return;
+        if (!file) {
+            pvFoto.style.backgroundImage = 'none';
+            pvFoto.innerText = 'FOTO';
+            return;
+        }
 
         const reader = new FileReader();
         reader.onload = function (e) {
-            previewFoto.src = e.target.result;
-            previewFoto.style.display = "block";
+            pvFoto.style.backgroundImage = `url(${e.target.result})`;
+            pvFoto.innerText = ""; // remove texto padrão
         };
         reader.readAsDataURL(file);
     });
 
-    // Clique no botão GERAR CURRÍCULO
-    btnGerar.onclick = function () {
+    // >>>>>>>>>> ABRIR PREVIEW <<<<<<<<<<
+    btnGerar.onclick = () => {
+        preencherPreview();
+        previewModal.style.display = 'flex';
+    };
 
-        // Aplicar os valores no preview
-        previewNome.textContent = nomeInput.value || "Seu Nome";
-        previewProfissao.textContent = profissaoInput.value || "Profissão";
-        previewEmail.textContent = emailInput.value || "";
-        previewTelefone.textContent = telefoneInput.value || "";
-        previewEndereco.textContent = enderecoInput.value || "";
-        previewObjetivo.textContent = objetivoInput.value || "";
-        previewHabilidades.textContent = habilidadesInput.value || "";
+    closePreview.onclick = () => previewModal.style.display = 'none';
 
-        // Exibir a miniatura A4
-        previewContainer.style.display = "block";
+    function preencherPreview() {
 
-        // Scroll suave até o preview
-        previewContainer.scrollIntoView({ behavior: "smooth" });
+        // DADOS PESSOAIS
+        pvNome.innerText = nomeInput.value || "Seu Nome Aqui";
+        pvCargo.innerText = profissaoInput.value || "";
+        pvObjetivo.innerText = objetivoInput.value || "";
+        pvHabilidades.innerText = habilidadesInput.value || "";
+
+        // CONTATO
+        let contato = "";
+        if (telefoneInput.value) contato += "☎ " + telefoneInput.value + "<br>";
+        if (emailInput.value) contato += "✉ " + emailInput.value + "<br>";
+        if (enderecoInput.value) contato += "📍 " + enderecoInput.value;
+        pvContato.innerHTML = contato;
+
+        // FOTO: já tratada pelo event listener acima
+        if (!fotoInput.files[0]) {
+            pvFoto.style.backgroundImage = 'none';
+            pvFoto.innerText = 'FOTO';
+        }
+
+        // FORMAÇÕES
+        pvFormacoes.innerHTML = '';
+        document.querySelectorAll('#formacoesList .repeat').forEach(f => {
+            const curso = f.querySelector('.formacao-curso').value;
+            const inst = f.querySelector('.formacao-instituicao').value;
+            const ano = f.querySelector('.formacao-ano').value;
+            if (curso || inst || ano) {
+                const div = document.createElement('div');
+                div.className = 'pv-item';
+                div.innerHTML = `<strong>${curso}</strong><div style="font-size:13px;color:#475569">${inst} ${ano ? (" • " + ano) : ""}</div>`;
+                pvFormacoes.appendChild(div);
+            }
+        });
+
+        // EXPERIÊNCIAS
+        pvExperiencias.innerHTML = '';
+        document.querySelectorAll('#experienciasList .repeat').forEach(exp => {
+            const emp = exp.querySelector('.exp-empresa').value;
+            const cargo = exp.querySelector('.exp-cargo').value;
+            const desc = exp.querySelector('.exp-desc').value;
+            if (emp || cargo || desc) {
+                const div = document.createElement('div');
+                div.className = 'pv-item';
+                div.innerHTML = `<strong>${cargo} — ${emp}</strong><div style="font-size:13px;color:#475569;margin-top:6px">${desc.replace(/\n/g,'<br>')}</div>`;
+                pvExperiencias.appendChild(div);
+            }
+        });
+
+        // IDIOMAS FIXO
+        pvIdiomas.innerText = "Português — Nativo";
+    }
+
+    // >>>>>>>>>> ANÚNCIO SIMULADO PARA LIBERAR DOWNLOAD <<<<<<<<<<
+    let adWatched = false;
+    watchAd.onclick = () => {
+        setTimeout(() => {
+            adWatched = true;
+            downloadPdf.disabled = false;
+        }, 3000);
+    };
+
+    downloadPdf.onclick = async () => {
+        if (!adWatched) return alert("Assista ao anúncio antes!");
+
+        const a4 = document.getElementById('a4Sheet');
+        const canvas = await html2canvas(a4, { scale: 2, useCORS: true });
+        const img = canvas.toDataURL("image/png");
+
+        const pdf = new jspdf.jsPDF("p", "pt", "a4");
+        const w = pdf.internal.pageSize.getWidth();
+        const h = pdf.internal.pageSize.getHeight();
+
+        pdf.addImage(img, "PNG", 0, 0, w, h);
+        pdf.save((nomeInput.value || "curriculo") + ".pdf");
     };
 
 })();
