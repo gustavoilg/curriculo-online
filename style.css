@@ -87,3 +87,8 @@ button.gerar:hover {
     padding: 6px;
     border-radius: 6px;
 }
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 20px;
+}
