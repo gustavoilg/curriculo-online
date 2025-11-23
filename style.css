@@ -220,3 +220,40 @@ button.gerar:hover {
     color: #374151;
     line-height: 1.5;
 }
+/* --- MODAL PREVIEW A4 --- */
+
+.preview-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(2px);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.preview-content {
+    position: relative;
+    transform: scale(0.55);
+    transform-origin: top center;
+}
+
+.close-preview {
+    position: absolute;
+    top: -40px;
+    right: -10px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+}
+
+.a4-sheet {
+    width: 794px;
+    height: 1123px;
+    background: #fff;
+    padding: 40px 50px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.22);
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+}
