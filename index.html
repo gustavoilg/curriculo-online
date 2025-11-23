@@ -1,251 +1,347 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gerador de Currículo – Modelos Premium</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gerador de Currículo — Premium e Básico</title>
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,Helvetica,sans-serif}
-body{background:linear-gradient(135deg,#eef2ff,#f0f9ff 60%,#fffaf0);padding:28px;display:flex;justify-content:center}
-.container{width:100%;max-width:920px;background:#fff;padding:26px;border-radius:14px;box-shadow:0 12px 40px rgba(2,6,23,0.08)}
-.titulo-principal{font-size:26px;font-weight:800;text-align:center;background:linear-gradient(90deg,#4f46e5,#9333ea);-webkit-background-clip:text;color:transparent}
-.subtitulo{text-align:center;color:#6b7280;margin-bottom:16px}
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
+    body{background:linear-gradient(135deg,#eef2ff,#f0f9ff 60%,#fffaf0);padding:20px;display:flex;justify-content:center}
+    .container{width:100%;max-width:920px;background:#fff;padding:26px;border-radius:14px;box-shadow:0 12px 40px rgba(2,6,23,0.08)}
+    h1{font-size:26px;font-weight:800;text-align:center;background:linear-gradient(90deg,#4f46e5,#9333ea);-webkit-background-clip:text;color:transparent}
+    p.subtitulo{text-align:center;color:#6b7280;margin-bottom:16px}
+    .section{background:#fbfdff;border:1px solid #eef2ff;padding:14px;border-radius:12px;margin-bottom:12px}
+    .section-title{font-size:15px;font-weight:700;color:#1f2937;margin-bottom:10px}
+    input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid #e6eef9;background:#fff;margin-bottom:10px;font-size:14px}
+    textarea{resize:vertical;min-height:80px}
+    .add-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#eef2ff,#f7fbff);border:1px solid #dbeafe;color:#1e3a8a;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600}
+    .btn-primary{background:linear-gradient(90deg,#4f46e5,#7c3aed);color:#fff;border:none;padding:12px 16px;border-radius:10px;cursor:pointer;font-weight:700}
+    .btn-secondary{background:#eef2ff;border:1px solid #c7d2fe;color:#1e3a8a;padding:10px 14px;border-radius:10px;cursor:pointer}
+    
+    .preview-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);justify-content:center;align-items:flex-start;padding:28px;z-index:1200;overflow:auto}
+    .preview-wrapper{position:relative;transform:scale(0.62);transform-origin:top center}
+    .close-preview{position:absolute;top:-56px;right:0;font-size:42px;color:#fff;background:transparent;border:none;cursor:pointer}
+    .a4-sheet{width:794px;height:1123px;background:#fff;border-radius:6px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 10px 40px rgba(2,6,23,0.15)}
+    .topbar{height:120px;background:linear-gradient(90deg,#365b90,#2a4770);position:relative}
+    .sheet-inner{display:flex;flex:1}
+    .left-col{width:240px;padding:22px;background:#fafbfd;border-right:1px solid #eef2ff;display:flex;flex-direction:column;gap:16px}
+    .right-col{flex:1;padding:28px 36px;overflow:auto}
+    .photo{width:120px;height:120px;border-radius:999px;background:#fff;border:4px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#334155;margin-bottom:4px;background-size:cover;background-position:center}
+    .pv-block h4{font-size:13px;color:#0f172a;margin-bottom:8px;border-bottom:1px solid #e6eef9;padding-bottom:6px}
+    .pv-block p{font-size:13px;color:#475569;line-height:1.45}
+    #pv_nome{font-size:30px;font-weight:800;color:#0f172a;margin-bottom:6px}
+    .pv-cargo{font-size:13px;color:#64748b;margin-bottom:12px}
+    .pv-section{margin-top:12px}
+    .pv-section h3{font-size:14px;color:#0f172a;border-bottom:1px solid #e6eef9;padding-bottom:6px;margin-bottom:8px}
+    .pv-section p{font-size:14px;color:#334155;line-height:1.5;margin-bottom:6px}
+    .pv-item{margin-bottom:10px}
+    .preview-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:12px}
+    .preview-actions button{min-width:160px}
 
-.section{background:#fbfdff;border:1px solid #eef2ff;padding:14px;border-radius:12px;margin-bottom:12px}
-.section-title{font-size:15px;font-weight:700;color:#1f2937;margin-bottom:10px}
-input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid #e6eef9;background:#fff;margin-bottom:10px;font-size:14px}
-textarea{resize:vertical;min-height:80px}
+    @media(max-width:1000px){ .preview-wrapper{transform:scale(0.46)} }
+    @media(max-width:640px){ body{padding:18px} .container{padding:18px} }
+    .premium-fields{display:none;background:#f7f7ff;padding:10px;border-radius:8px;margin-top:10px}
+  </style>
 
-.add-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#eef2ff,#f7fbff);border:1px solid #dbeafe;color:#1e3a8a;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600}
-.btn-primary{background:linear-gradient(90deg,#4f46e5,#7c3aed);color:#fff;border:none;padding:12px 16px;border-radius:10px;cursor:pointer;font-weight:700}
-.btn-secondary{background:#eef2ff;border:1px solid #c7d2fe;color:#1e3a8a;padding:10px 14px;border-radius:10px;cursor:pointer}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
 
-.preview-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);justify-content:center;align-items:flex-start;padding:28px;z-index:1200}
-.preview-wrapper{position:relative;transform:scale(0.62);transform-origin:top center;background:#fff;border-radius:8px;padding:12px}
-.close-preview{position:absolute;top:-56px;right:0;font-size:42px;color:#fff;background:transparent;border:none;cursor:pointer}
+<body>
+  <div class="container">
+    <h1>Gerador de Currículo Profissional</h1>
+    <p class="subtitulo">Escolha o modelo e preencha os campos</p>
 
-.a4-sheet{width:794px;height:1123px;background:#fff;border-radius:6px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 10px 40px rgba(2,6,23,0.15)}
-.topbar{height:120px;background:linear-gradient(90deg,#365b90,#2a4770);position:relative}
-.sheet-inner{display:flex;flex:1}
-.left-col{width:240px;padding:22px;background:#fafbfd;border-right:1px solid #eef2ff;display:flex;flex-direction:column;gap:16px}
-.right-col{flex:1;padding:28px 36px;overflow:auto}
+    <!-- Seleção de modelo -->
+    <section class="section">
+      <div class="section-title">Modelo de Currículo</div>
+      <select id="modeloSelect">
+        <option value="basico">Básico (Gratuito)</option>
+        <option value="premium">Premium (R$4,99)</option>
+      </select>
+    </section>
 
-.photo{width:120px;height:120px;border-radius:999px;background:#fff;border:4px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#334155;margin-bottom:4px;background-size:cover;background-position:center;background-repeat:no-repeat}
+    <!-- Dados Pessoais -->
+    <section class="section">
+      <div class="section-title">Dados Pessoais</div>
+      <input id="nome" placeholder="Nome completo">
+      <input type="file" id="foto" accept="image/*">
+      <input id="profissao" placeholder="Profissão / Cargo">
+      <input id="email" placeholder="E-mail">
+      <input id="telefone" placeholder="Telefone">
+      <input id="endereco" placeholder="Cidade/Estado">
+      <input id="linkedin" placeholder="LinkedIn (Premium)">
+      <input id="github" placeholder="GitHub / Portfólio (Premium)">
+    </section>
 
-.pv-block h4{font-size:13px;color:#0f172a;margin-bottom:8px;border-bottom:1px solid #e6eef9;padding-bottom:6px}
-.pv-block p{font-size:13px;color:#475569;line-height:1.45}
-#pv_nome{font-size:30px;font-weight:800;color:#0f172a;margin-bottom:6px}
-.pv-cargo{font-size:13px;color:#64748b;margin-bottom:12px}
-.pv-section{margin-top:12px}
-.pv-section h3{font-size:14px;color:#0f172a;border-bottom:1px solid #e6eef9;padding-bottom:6px;margin-bottom:8px}
-.pv-section p{font-size:14px;color:#334155;line-height:1.5;margin-bottom:6px}
-.pv-item{margin-bottom:10px}
+    <!-- Objetivo -->
+    <section class="section">
+      <div class="section-title">Resumo Profissional</div>
+      <textarea id="objetivo"></textarea>
+    </section>
 
-.preview-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:12px}
-.preview-actions button{min-width:160px}
+    <!-- Experiências -->
+    <section class="section">
+      <div class="section-title">Experiências Profissionais</div>
+      <div id="experienciasList">
+        <div class="repeat">
+          <input class="exp-empresa" placeholder="Empresa">
+          <input class="exp-cargo" placeholder="Cargo">
+          <textarea class="exp-desc" placeholder="Descrição"></textarea>
+        </div>
+      </div>
+      <div class="add-btn" id="addExperiencia">+ Adicionar outra experiência</div>
+    </section>
 
-/* Premium 1 */
-.premium1 .topbar{background:linear-gradient(90deg,#4f46e5,#9333ea)}
-.premium1 .pv-block h4{color:#1e40af}
-.premium1 .skill-bar{height:8px;background:#e0e7ff;border-radius:4px;margin-bottom:6px;position:relative}
-.premium1 .skill-bar span{display:block;height:100%;background:#4f46e5;border-radius:4px;position:absolute;left:0;top:0}
+    <!-- Formação -->
+    <section class="section">
+      <div class="section-title">Formação Acadêmica</div>
+      <div id="formacoesList">
+        <div class="repeat">
+          <input class="formacao-curso" placeholder="Curso">
+          <input class="formacao-instituicao" placeholder="Instituição">
+          <input class="formacao-ano" placeholder="Ano">
+        </div>
+      </div>
+      <div class="add-btn" id="addFormacao">+ Adicionar outro curso</div>
+    </section>
 
-/* Premium 2 */
-.premium2 .topbar{background:linear-gradient(90deg,#9333ea,#ec4899,#f97316)}
-.premium2 .pv-block h4{color:#b91c1c}
-.premium2 .skill-bar span{background:linear-gradient(90deg,#9333ea,#ec4899)}
-.premium2 .card{background:#fef3c7;border-radius:8px;padding:10px;margin-bottom:6px;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+    <!-- Habilidades -->
+    <section class="section">
+      <div class="section-title">Habilidades</div>
+      <textarea id="habilidades" placeholder="Ex.: Excel, Comunicação, Liderança"></textarea>
+    </section>
 
-@media(max-width:640px){
-  .preview-wrapper{transform:scale(0.38);padding:10px}
-  .close-preview{top:-48px;font-size:32px}
-}
-</style>
+    <!-- Campos Premium -->
+    <section class="section premium-fields" id="premiumFields">
+      <div class="section-title">Campos Premium</div>
+      <textarea id="projetos" placeholder="Projetos (descrição e links)"></textarea>
+      <textarea id="certificacoes" placeholder="Certificações / Cursos"></textarea>
+      <textarea id="interesses" placeholder="Interesses e atividades extras"></textarea>
+    </section>
 
-<div class="container">
-  <h1 class="titulo-principal">Gerador de Currículo</h1>
-  <p class="subtitulo">Escolha um modelo e preencha seus dados</p>
+    <button id="btnGerar" class="btn-primary">Gerar Meu Currículo</button>
+  </div>
 
-  <section class="section">
-    <div class="section-title">MODELO</div>
-    <select id="modelo">
-      <option value="basico">Básico (Grátis)</option>
-      <option value="premium1">Premium 1</option>
-      <option value="premium2">Premium 2</option>
-    </select>
-  </section>
+  <!-- PREVIEW -->
+  <div id="previewModal" class="preview-modal">
+    <div class="preview-wrapper">
+      <button id="closePreview" class="close-preview">✕</button>
 
-  <section class="section">
-    <div class="section-title">DADOS PESSOAIS</div>
-    <label>Nome</label>
-    <input id="nome">
-    <label>Foto</label>
-    <input type="file" id="foto" accept="image/*">
-    <label>Profissão</label>
-    <input id="profissao">
-    <label>E-mail</label>
-    <input id="email">
-    <label>Telefone</label>
-    <input id="telefone">
-    <label>Endereço</label>
-    <input id="endereco">
-  </section>
+      <div class="a4-sheet" id="a4Sheet">
+        <div class="topbar"></div>
+        <div class="sheet-inner">
+          <aside class="left-col">
+            <div class="photo" id="pv_foto">FOTO</div>
+            <div class="pv-block">
+              <h4>CONTATO</h4>
+              <p id="pv_contato"></p>
+            </div>
+            <div class="pv-block">
+              <h4>IDIOMAS</h4>
+              <p id="pv_idiomas">Português — Nativo</p>
+            </div>
+            <div class="pv-block">
+              <h4>HABILIDADES</h4>
+              <p id="pv_habilidades"></p>
+            </div>
+            <div class="pv-block">
+              <h4>INTERESSES</h4>
+              <p id="pv_interesses"></p>
+            </div>
+          </aside>
 
-  <section class="section premium-fields" style="display:none">
-    <div class="section-title">DADOS PREMIUM</div>
-    <label>Habilidades (ex: HTML:80, CSS:70, JS:90)</label>
-    <input id="habilidades">
-    <label>Projetos (um por linha)</label>
-    <textarea id="projetos"></textarea>
-    <label>Certificações (uma por linha)</label>
-    <textarea id="certificacoes"></textarea>
-  </section>
+          <main class="right-col">
+            <h1 id="pv_nome">Nome Completo</h1>
+            <div id="pv_cargo" class="pv-cargo"></div>
 
-  <section class="section">
-    <div class="section-title">OBJETIVO / RESUMO</div>
-    <textarea id="objetivo"></textarea>
-  </section>
+            <section class="pv-section">
+              <h3>PERFIL PROFISSIONAL</h3>
+              <p id="pv_objetivo"></p>
+            </section>
 
-  <button id="btnGerar" class="btn-primary">Gerar Meu Currículo</button>
-</div>
+            <section class="pv-section">
+              <h3>EXPERIÊNCIA PROFISSIONAL</h3>
+              <div id="pv_experiencias"></div>
+            </section>
 
-<!-- Preview -->
-<div id="previewModal" class="preview-modal">
-  <div class="preview-wrapper">
-    <button id="closePreview" class="close-preview">✕</button>
-    <div class="a4-sheet" id="a4Sheet">
-      <div class="topbar"></div>
-      <div class="sheet-inner">
-        <aside class="left-col">
-          <div class="photo" id="pv_foto">FOTO</div>
-          <div class="pv-block"><h4>CONTATO</h4><p id="pv_contato"></p></div>
-          <div class="pv-block"><h4>IDIOMAS</h4><p id="pv_idiomas">Português — Nativo</p></div>
-          <div class="pv-block"><h4>HABILIDADES</h4><div id="pv_habilidades"></div></div>
-          <div class="pv-block"><h4>INTERESSES</h4><p id="pv_interesses">Tecnologia • Leitura • Esportes</p></div>
-        </aside>
-        <main class="right-col">
-          <h1 id="pv_nome">Nome Completo</h1>
-          <div id="pv_cargo" class="pv-cargo"></div>
-          <section class="pv-section">
-            <h3>PERFIL PROFISSIONAL</h3>
-            <p id="pv_objetivo"></p>
-          </section>
-          <section class="pv-section">
-            <h3>PROJETOS</h3>
-            <div id="pv_projetos"></div>
-          </section>
-          <section class="pv-section">
-            <h3>CERTIFICAÇÕES</h3>
-            <div id="pv_certificacoes"></div>
-          </section>
-        </main>
+            <section class="pv-section">
+              <h3>FORMAÇÃO ACADÊMICA</h3>
+              <div id="pv_formacoes"></div>
+            </section>
+
+            <section class="pv-section">
+              <h3>PROJETOS (Premium)</h3>
+              <div id="pv_projetos"></div>
+            </section>
+
+            <section class="pv-section">
+              <h3>CERTIFICAÇÕES / CURSOS (Premium)</h3>
+              <div id="pv_certificacoes"></div>
+            </section>
+          </main>
+        </div>
+      </div>
+
+      <div class="preview-actions">
+        <button id="payPix" class="btn-secondary">Pagar R$4,99 (Premium)</button>
+        <button id="downloadPdf" class="btn-primary" disabled>Baixar PDF</button>
       </div>
     </div>
-    <div class="preview-actions">
-      <button id="watchAd" class="btn-secondary">Pagar PIX R$4,99</button>
-      <button id="downloadPdf" class="btn-primary" disabled>Baixar PDF</button>
-    </div>
   </div>
-</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
-(function(){
-const nomeInput=document.getElementById('nome');
-const profissaoInput=document.getElementById('profissao');
-const emailInput=document.getElementById('email');
-const telefoneInput=document.getElementById('telefone');
-const enderecoInput=document.getElementById('endereco');
-const objetivoInput=document.getElementById('objetivo');
-const habilidadesInput=document.getElementById('habilidades');
-const projetosInput=document.getElementById('projetos');
-const certificacoesInput=document.getElementById('certificacoes');
-const fotoInput=document.getElementById('foto');
-const modelo=document.getElementById('modelo');
-const premiumFields=document.querySelector('.premium-fields');
+  <script>
+    (function(){
 
-const previewModal=document.getElementById('previewModal');
-const closePreview=document.getElementById('closePreview');
-const btnGerar=document.getElementById('btnGerar');
-const watchAd=document.getElementById('watchAd');
-const downloadPdf=document.getElementById('downloadPdf');
+      const nomeInput = document.getElementById('nome');
+      const profissaoInput = document.getElementById('profissao');
+      const emailInput = document.getElementById('email');
+      const telefoneInput = document.getElementById('telefone');
+      const enderecoInput = document.getElementById('endereco');
+      const linkedinInput = document.getElementById('linkedin');
+      const githubInput = document.getElementById('github');
+      const objetivoInput = document.getElementById('objetivo');
+      const habilidadesInput = document.getElementById('habilidades');
+      const projetosInput = document.getElementById('projetos');
+      const certificacoesInput = document.getElementById('certificacoes');
+      const interessesInput = document.getElementById('interesses');
+      const fotoInput = document.getElementById('foto');
 
-const pv_foto=document.getElementById('pv_foto');
-const pv_nome=document.getElementById('pv_nome');
-const pv_cargo=document.getElementById('pv_cargo');
-const pv_objetivo=document.getElementById('pv_objetivo');
-const pv_habilidades=document.getElementById('pv_habilidades');
-const pv_projetos=document.getElementById('pv_projetos');
-const pv_certificacoes=document.getElementById('pv_certificacoes');
-const pv_contato=document.getElementById('pv_contato');
+      const modeloSelect = document.getElementById('modeloSelect');
+      const premiumFields = document.getElementById('premiumFields');
 
-fotoInput.addEventListener('change',function(){
-  const file=this.files[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=function(e){ pv_foto.style.backgroundImage=`url(${e.target.result})`; pv_foto.innerText=''; }
-  reader.readAsDataURL(file);
-});
+      const experienciasList = document.getElementById('experienciasList');
+      const formacoesList = document.getElementById('formacoesList');
 
-modelo.addEventListener('change',()=>{
-  if(modelo.value==='premium1' || modelo.value==='premium2'){
-    premiumFields.style.display='block';
-  } else premiumFields.style.display='none';
-});
+      const btnGerar = document.getElementById('btnGerar');
+      const previewModal = document.getElementById('previewModal');
+      const closePreview = document.getElementById('closePreview');
 
-btnGerar.onclick=()=>{
-  // aplicar valores
-  pv_nome.textContent=nomeInput.value||"Seu Nome";
-  pv_cargo.textContent=profissaoInput.value||"Profissão";
-  pv_objetivo.textContent=objetivoInput.value||"";
-  pv_contato.innerHTML="";
-  if(telefoneInput.value) pv_contato.innerHTML+="☎ "+telefoneInput.value+"<br>";
-  if(emailInput.value) pv_contato.innerHTML+="✉ "+emailInput.value+"<br>";
-  if(enderecoInput.value) pv_contato.innerHTML+="📍 "+enderecoInput.value;
+      const pv_foto = document.getElementById('pv_foto');
+      const pv_nome = document.getElementById('pv_nome');
+      const pv_cargo = document.getElementById('pv_cargo');
+      const pv_objetivo = document.getElementById('pv_objetivo');
+      const pv_habilidades = document.getElementById('pv_habilidades');
+      const pv_contato = document.getElementById('pv_contato');
+      const pv_experiencias = document.getElementById('pv_experiencias');
+      const pv_formacoes = document.getElementById('pv_formacoes');
+      const pv_projetos = document.getElementById('pv_projetos');
+      const pv_certificacoes = document.getElementById('pv_certificacoes');
+      const pv_interesses = document.getElementById('pv_interesses');
 
-  // habilidades premium
-  pv_habilidades.innerHTML="";
-  if(modelo.value==='premium1' || modelo.value==='premium2'){
-    habilidadesInput.value.split(',').forEach(h=>{
-      const parts=h.split(':');
-      const nome=parts[0].trim(); const val=parseInt(parts[1]||50);
-      const div=document.createElement('div'); div.className='skill-bar';
-      const span=document.createElement('span'); span.style.width=Math.min(val,100)+'%'; span.title=nome;
-      div.appendChild(span); pv_habilidades.appendChild(div);
-    });
-    pv_projetos.innerHTML=projetosInput.value.split('\n').map(p=>`<div class="card">${p}</div>`).join('');
-    pv_certificacoes.innerHTML=certificacoesInput.value.split('\n').map(c=>`<div class="card">${c}</div>`).join('');
-  }
+      const payPix = document.getElementById('payPix');
+      const downloadPdf = document.getElementById('downloadPdf');
 
-  // aplicar classe premium
-  const previewWrapper=document.querySelector('.preview-wrapper');
-  previewWrapper.classList.remove('premium1','premium2');
-  if(modelo.value==='premium1') previewWrapper.classList.add('premium1');
-  if(modelo.value==='premium2') previewWrapper.classList.add('premium2');
+      // Mostrar campos premium quando selecionado
+      modeloSelect.addEventListener("change", ()=>{
+        premiumFields.style.display = modeloSelect.value === "premium" ? "block" : "none";
+      });
 
-  previewModal.style.display='flex';
-};
+      // Adicionar novas experiências e formações
+      document.getElementById('addExperiencia').onclick = ()=>{
+        const div = document.createElement('div');
+        div.className='repeat';
+        div.innerHTML='<input class="exp-empresa" placeholder="Empresa"><input class="exp-cargo" placeholder="Cargo"><textarea class="exp-desc" placeholder="Descrição"></textarea>';
+        experienciasList.appendChild(div);
+      };
+      document.getElementById('addFormacao').onclick = ()=>{
+        const div = document.createElement('div');
+        div.className='repeat';
+        div.innerHTML='<input class="formacao-curso" placeholder="Curso"><input class="formacao-instituicao" placeholder="Instituição"><input class="formacao-ano" placeholder="Ano">';
+        formacoesList.appendChild(div);
+      };
 
-// PIX / desbloquear download
-let paid=false;
-watchAd.onclick=()=>{
-  const confirmPay=confirm("Para acessar este modelo Premium, confirme pagamento via PIX R$4,99");
-  if(confirmPay){ alert("Sucesso! PDF desbloqueado."); paid=true; downloadPdf.disabled=false; }
-};
-closePreview.onclick=()=>{ previewModal.style.display='none'; };
+      // Upload foto
+      fotoInput.addEventListener("change", function(){
+        const file = this.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = e=>{
+          pv_foto.style.backgroundImage = `url(${e.target.result})`;
+          pv_foto.innerText="";
+        };
+        reader.readAsDataURL(file);
+      });
 
-// gerar PDF
-downloadPdf.onclick=async()=>{
-  if((modelo.value==='premium1'||modelo.value==='premium2')&&!paid){ alert("Pague o PIX antes de baixar."); return; }
-  const a4=document.getElementById('a4Sheet');
-  const canvas=await html2canvas(a4,{scale:2,useCORS:true});
-  const img=canvas.toDataURL("image/png");
-  const pdf=new jspdf.jsPDF("p","pt","a4");
-  const w=pdf.internal.pageSize.getWidth();
-  const h=pdf.internal.pageSize.getHeight();
-  pdf.addImage(img,"PNG",0,0,w,h);
-  pdf.save((nomeInput.value||"curriculo")+".pdf");
-};
-})();
-</script>
+      // Gerar Preview
+      btnGerar.onclick = ()=>{
+        pv_nome.innerText = nomeInput.value || "Seu Nome";
+        pv_cargo.innerText = profissaoInput.value || "Profissão";
+        pv_objetivo.innerText = objetivoInput.value || "";
+        pv_habilidades.innerText = habilidadesInput.value || "";
+        pv_interesses.innerText = interessesInput.value || "";
+
+        let contato = "";
+        if(telefoneInput.value) contato += "☎ " + telefoneInput.value + "<br>";
+        if(emailInput.value) contato += "✉ " + emailInput.value + "<br>";
+        if(enderecoInput.value) contato += "📍 " + enderecoInput.value + "<br>";
+        if(linkedinInput.value) contato += "🔗 " + linkedinInput.value + "<br>";
+        if(githubInput.value) contato += "💻 " + githubInput.value + "<br>";
+        pv_contato.innerHTML = contato;
+
+        // Experiências
+        pv_experiencias.innerHTML="";
+        document.querySelectorAll('#experienciasList .repeat').forEach(e=>{
+          const emp=e.querySelector('.exp-empresa').value;
+          const cargo=e.querySelector('.exp-cargo').value;
+          const desc=e.querySelector('.exp-desc').value;
+          if(emp||cargo||desc){
+            const div=document.createElement('div');
+            div.className='pv-item';
+            div.innerHTML=`<strong>${cargo} — ${emp}</strong><div style="font-size:13px;color:#475569;margin-top:6px">${desc.replace(/\n/g,'<br>')}</div>`;
+            pv_experiencias.appendChild(div);
+          }
+        });
+
+        // Formações
+        pv_formacoes.innerHTML="";
+        document.querySelectorAll('#formacoesList .repeat').forEach(f=>{
+          const curso=f.querySelector('.formacao-curso').value;
+          const inst=f.querySelector('.formacao-instituicao').value;
+          const ano=f.querySelector('.formacao-ano').value;
+          if(curso||inst||ano){
+            const div=document.createElement('div');
+            div.className='pv-item';
+            div.innerHTML=`<strong>${curso}</strong><div style="font-size:13px;color:#475569">${inst} ${ano?(" • "+ano):""}</div>`;
+            pv_formacoes.appendChild(div);
+          }
+        });
+
+        // Premium campos
+        pv_projetos.innerText = projetosInput.value;
+        pv_certificacoes.innerText = certificacoesInput.value;
+
+        // Mostrar modal
+        previewModal.style.display="flex";
+      };
+
+      closePreview.onclick = ()=>previewModal.style.display="none";
+
+      // Pagamento PIX simulado
+      payPix.onclick = ()=>{
+        alert("Simulação de pagamento PIX concluído! Agora você pode baixar o PDF.");
+        downloadPdf.disabled=false;
+      };
+
+      // Download PDF
+      downloadPdf.onclick = async ()=>{
+        if(modeloSelect.value==="premium" && !downloadPdf.disabled) {
+          const a4 = document.getElementById('a4Sheet');
+          const canvas = await html2canvas(a4,{scale:2,useCORS:true});
+          const imgData = canvas.toDataURL('image/png');
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF('p','pt','a4');
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const pdfHeight = pdf.internal.pageSize.getHeight();
+          pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+          pdf.save(`${nomeInput.value || "curriculo"}.pdf`);
+        } else {
+          alert("Você precisa pagar o Premium para baixar o PDF deste modelo.");
+        }
+      };
+
+    })();
+  </script>
+</body>
+</html>
