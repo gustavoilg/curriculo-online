@@ -1,4 +1,4 @@
-/* Reset básico */
+/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -6,11 +6,34 @@
     font-family: "Inter", sans-serif;
 }
 
+/* FUNDO DO SITE */
 body {
     background: #f6f7f9;
     padding: 20px;
 }
 
+/* CONTAINER CENTRAL */
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+/* TÍTULOS */
+.titulo-principal {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.subtitulo {
+    text-align: center;
+    color: #606060;
+    margin-bottom: 25px;
+}
+
+/* SEÇÕES DO FORMULÁRIO */
 section {
     background: white;
     padding: 20px;
@@ -19,7 +42,8 @@ section {
     box-shadow: 0 3px 8px rgba(0,0,0,0.05);
 }
 
-h2.section-title {
+/* TÍTULOS DE SEÇÃO */
+.section-title {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 15px;
@@ -28,7 +52,7 @@ h2.section-title {
     gap: 8px;
 }
 
-h2.section-title .num {
+.section-title .num {
     background: #e8edf4;
     color: #2d4b73;
     padding: 4px 10px;
@@ -37,6 +61,7 @@ h2.section-title .num {
     font-weight: 700;
 }
 
+/* LABELS */
 label {
     font-weight: 600;
     margin-bottom: 4px;
@@ -44,6 +69,7 @@ label {
     color: #303030;
 }
 
+/* INPUTS */
 input, select, textarea {
     width: 100%;
     padding: 12px;
@@ -54,24 +80,7 @@ input, select, textarea {
     font-size: 16px;
 }
 
-/* Botão principal */
-button.gerar {
-    width: 100%;
-    padding: 18px;
-    background: #48bb78;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-button.gerar:hover {
-    background: #3fa86b;
-}
-
-/* Botão de adicionar novo campo */
+/* BOTÃO ADICIONAR */
 .add-btn {
     display: flex;
     align-items: center;
@@ -86,9 +95,22 @@ button.gerar:hover {
     background: #e2e8f0;
     padding: 6px;
     border-radius: 6px;
+    font-weight: 700;
 }
-.container {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 20px;
+
+/* BOTÃO PRINCIPAL */
+button.gerar {
+    width: 100%;
+    padding: 18px;
+    background: #48bb78;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+button.gerar:hover {
+    background: #3fa86b;
 }
