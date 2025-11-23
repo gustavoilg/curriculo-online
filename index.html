@@ -294,5 +294,51 @@ button:hover { background: #0043a8; }
 
     // Quando fechar modal sem assistir, não libera nada
 
+  </script>  <!-- Modal de Pré-visualização A4 -->  <div id="previewModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; padding:20px;">
+      <div style="background:white; width:794px; height:1123px; padding:40px; overflow:auto; border-radius:6px; box-shadow:0 0 20px rgba(0,0,0,0.25);" id="previewContent">
+      </div>
+  </div>  <script>
+    // Função de pré-visualização em formato A4
+    function abrirPreview() {
+      const nome = document.getElementById('nome').value;
+      const email = document.getElementById('email').value;
+      const telefone = document.getElementById('telefone').value;
+      const endereco = document.getElementById('endereco').value;
+
+      const sobre = document.getElementById('sobre').value;
+      const experiencia = document.getElementById('experiencia').value;
+      const formacao = document.getElementById('formacao').value;
+      const habilidades = document.getElementById('habilidades').value;
+
+      const html = `
+        <h2 style='text-align:center; margin:0;'>${nome}</h2>
+        <p style='text-align:center; margin:5px 0;'>${email} | ${telefone} | ${endereco}</p>
+        <hr>
+
+        <h3>Sobre Mim</h3>
+        <p>${sobre}</p>
+
+        <h3>Experiência</h3>
+        <p>${experiencia.replace(/
+/g, '<br>')}</p>
+
+        <h3>Formação</h3>
+        <p>${formacao.replace(/
+/g, '<br>')}</p>
+
+        <h3>Habilidades</h3>
+        <p>${habilidades}</p>
+      `;
+
+      document.getElementById('previewContent').innerHTML = html;
+      document.getElementById('previewModal').style.display = 'flex';
+    }
+
+    // Fechar modal ao clicar fora
+    document.getElementById('previewModal').addEventListener('click', (e) => {
+      if (e.target.id === 'previewModal') {
+        document.getElementById('previewModal').style.display = 'none';
+      }
+    });
   </script></body>
 </html>
