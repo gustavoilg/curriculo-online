@@ -17,17 +17,36 @@ body{background:linear-gradient(135deg,#eef2ff,#f0f9ff 60%,#fffaf0);padding:20px
 input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid #e6eef9;background:#fff;margin-bottom:10px;font-size:14px;}
 textarea{resize:vertical;min-height:80px;}
 .add-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#eef2ff,#f7fbff);border:1px solid #dbeafe;color:#1e3a8a;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600;}
-.remove-btn{display:inline-block;background:#f87171;color:#fff;padding:2px 6px;border-radius:6px;font-size:12px;cursor:pointer;margin-left:6px;}
 .btn-primary{background:linear-gradient(90deg,#4f46e5,#7c3aed);color:#fff;border:none;padding:12px 16px;border-radius:10px;cursor:pointer;font-weight:700;}
-.btn-secondary{background:#eef2ff;border:1px solid #c7d2fe;color:#1e3a8a;padding:10px 14px;border-radius:10px;cursor:pointer;}
+.btn-secondary{background:#eef2ff;border:1px solid #c7d2fe;color:#1e3a8a;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:600;}
 
 /* Modal Preview */
-.preview-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);justify-content:center;align-items:flex-start;padding:20px;z-index:1200;overflow:auto;}
-.preview-wrapper{position:relative;max-width:100%;width:820px;background:#fff;padding:16px;border-radius:12px;overflow:auto;}
-.close-preview{position:absolute;top:10px;right:10px;font-size:32px;color:#333;background:transparent;border:none;cursor:pointer;}
+.preview-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(4px);
+  justify-content:center;
+  align-items:flex-start;
+  padding:20px;
+  z-index:1200;
+  overflow:auto;
+}
+.preview-wrapper{
+  position:relative;
+  max-width:95%;
+  max-height:95%;
+  width:auto;
+  height:auto;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+.close-preview{position:absolute;top:-50px;right:0;font-size:42px;color:#fff;background:transparent;border:none;cursor:pointer;}
 
 /* Currículo */
-.a4-sheet{width:794px;height:1123px;background:#fff;border-radius:6px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 10px 40px rgba(2,6,23,0.15);}
+.a4-sheet{width:794px;max-width:100%;height:1123px;max-height:100%;background:#fff;border-radius:6px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 10px 40px rgba(2,6,23,0.15);}
 .topbar{height:120px;background:linear-gradient(90deg,#365b90,#2a4770);position:relative;}
 .sheet-inner{display:flex;flex:1;}
 .left-col{width:240px;padding:22px;background:#fafbfd;border-right:1px solid #eef2ff;display:flex;flex-direction:column;gap:16px;}
@@ -45,8 +64,14 @@ textarea{resize:vertical;min-height:80px;}
 .preview-actions button{min-width:160px;}
 
 /* Responsive */
-@media(max-width:1000px){.preview-wrapper{width:95%;}}
-@media(max-width:640px){body{padding:18px}.container{padding:18px}.preview-wrapper{width:100%;padding:10px;}}
+@media(max-width:1000px){.preview-wrapper{transform:scale(0.7)}}
+@media(max-width:640px){
+  body{padding:18px}
+  .container{padding:18px}
+  .preview-wrapper{transform:none;width:100%;height:auto;}
+  .a4-sheet{width:100%;height:auto;}
+  .close-preview{top:10px;right:10px;font-size:32px;}
+}
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -69,12 +94,18 @@ textarea{resize:vertical;min-height:80px;}
 
 <section class="section">
   <div class="section-title">DADOS PESSOAIS</div>
-  <label>Nome</label><input id="nome">
-  <label>Foto</label><input type="file" id="foto" accept="image/*">
-  <label>Profissão</label><input id="profissao">
-  <label>E-mail</label><input id="email">
-  <label>Telefone</label><input id="telefone">
-  <label>Endereço</label><input id="endereco">
+  <label>Nome</label>
+  <input id="nome">
+  <label>Foto</label>
+  <input type="file" id="foto" accept="image/*">
+  <label>Profissão</label>
+  <input id="profissao">
+  <label>E-mail</label>
+  <input id="email">
+  <label>Telefone</label>
+  <input id="telefone">
+  <label>Endereço</label>
+  <input id="endereco">
 </section>
 
 <section class="section">
@@ -89,7 +120,6 @@ textarea{resize:vertical;min-height:80px;}
       <input class="formacao-curso" placeholder="Curso">
       <input class="formacao-instituicao" placeholder="Instituição">
       <input class="formacao-ano" placeholder="Ano">
-      <span class="remove-btn" onclick="this.parentElement.remove()">Remover</span>
     </div>
   </div>
   <div class="add-btn" id="addFormacao">+ Adicionar outro curso</div>
@@ -102,7 +132,6 @@ textarea{resize:vertical;min-height:80px;}
       <input class="exp-empresa" placeholder="Empresa">
       <input class="exp-cargo" placeholder="Cargo">
       <textarea class="exp-desc" placeholder="Descrição"></textarea>
-      <span class="remove-btn" onclick="this.parentElement.remove()">Remover</span>
     </div>
   </div>
   <div class="add-btn" id="addExperiencia">+ Adicionar outra experiência</div>
@@ -115,7 +144,6 @@ textarea{resize:vertical;min-height:80px;}
       <input class="curso-nome" placeholder="Curso">
       <input class="curso-instituicao" placeholder="Instituição">
       <input class="curso-ano" placeholder="Ano">
-      <span class="remove-btn" onclick="this.parentElement.remove()">Remover</span>
     </div>
   </div>
   <div class="add-btn" id="addCurso">+ Adicionar outro curso</div>
@@ -124,17 +152,6 @@ textarea{resize:vertical;min-height:80px;}
 <section class="section">
   <div class="section-title">HABILIDADES / IDIOMAS</div>
   <textarea id="habilidades"></textarea>
-</section>
-
-<!-- Seção Premium -->
-<section class="section" id="premiumSection" style="display:none;">
-  <div class="section-title">PROJETOS / PORTFÓLIO (Premium)</div>
-  <div id="projetosList"></div>
-  <div class="add-btn" id="addProjeto">+ Adicionar projeto</div>
-
-  <div class="section-title">REFERÊNCIAS / LINKS (Premium)</div>
-  <div id="linksList"></div>
-  <div class="add-btn" id="addLink">+ Adicionar referência/link</div>
 </section>
 
 <button id="btnGerar" class="btn-primary">Gerar Meu Currículo</button>
@@ -172,14 +189,6 @@ textarea{resize:vertical;min-height:80px;}
         <h3>CURSOS / CERTIFICAÇÕES</h3>
         <div id="pv_cursos"></div>
       </section>
-      <section class="pv-section" id="pvProjetosSection" style="display:none;">
-        <h3>PROJETOS / PORTFÓLIO</h3>
-        <div id="pv_projetos"></div>
-      </section>
-      <section class="pv-section" id="pvLinksSection" style="display:none;">
-        <h3>REFERÊNCIAS / LINKS</h3>
-        <div id="pv_links"></div>
-      </section>
     </main>
   </div>
 </div>
@@ -188,11 +197,6 @@ textarea{resize:vertical;min-height:80px;}
   <button id="downloadPdf" class="btn-primary" disabled>Baixar PDF</button>
 </div>
 </div>
-</div>
-
-<!-- PDF sheet invisível -->
-<div id="pdfSheet" style="width:794px;height:1123px;background:#fff;position:absolute;left:-9999px;top:-9999px;">
-  <div id="pdfContent"></div>
 </div>
 
 <script>
@@ -207,7 +211,6 @@ textarea{resize:vertical;min-height:80px;}
   const fotoInput = document.getElementById('foto');
   const modeloSelect = document.getElementById('modeloCurriculo');
 
-  const premiumSection = document.getElementById('premiumSection');
   const previewModal = document.getElementById('previewModal');
   const closePreview = document.getElementById('closePreview');
   const btnGerar = document.getElementById('btnGerar');
@@ -223,26 +226,18 @@ textarea{resize:vertical;min-height:80px;}
   const pv_formacoes = document.getElementById('pv_formacoes');
   const pv_experiencias = document.getElementById('pv_experiencias');
   const pv_cursos = document.getElementById('pv_cursos');
-  const pv_projetos = document.getElementById('pv_projetos');
-  const pv_links = document.getElementById('pv_links');
-  const pvProjetosSection = document.getElementById('pvProjetosSection');
-  const pvLinksSection = document.getElementById('pvLinksSection');
+  const pv_idiomas = document.getElementById('pv_idiomas');
 
   const formacoesList = document.getElementById('formacoesList');
   const experienciasList = document.getElementById('experienciasList');
   const cursosList = document.getElementById('cursosList');
 
-  const projetosList = document.getElementById('projetosList');
-  const linksList = document.getElementById('linksList');
-
   let adWatched = false;
 
   // adicionar blocos
-  document.getElementById('addFormacao').onclick = ()=>{const box=document.createElement('div');box.className='repeat';box.innerHTML='<input class="formacao-curso" placeholder="Curso"><input class="formacao-instituicao" placeholder="Instituição"><input class="formacao-ano" placeholder="Ano"><span class="remove-btn" onclick="this.parentElement.remove()">Remover</span>';formacoesList.appendChild(box)};
-  document.getElementById('addExperiencia').onclick = ()=>{const box=document.createElement('div');box.className='repeat';box.innerHTML='<input class="exp-empresa" placeholder="Empresa"><input class="exp-cargo" placeholder="Cargo"><textarea class="exp-desc" placeholder="Descrição"></textarea><span class="remove-btn" onclick="this.parentElement.remove()">Remover</span>';experienciasList.appendChild(box)};
-  document.getElementById('addCurso').onclick = ()=>{const box=document.createElement('div');box.className='repeat';box.innerHTML='<input class="curso-nome" placeholder="Curso"><input class="curso-instituicao" placeholder="Instituição"><input class="curso-ano" placeholder="Ano"><span class="remove-btn" onclick="this.parentElement.remove()">Remover</span>';cursosList.appendChild(box)};
-  document.getElementById('addProjeto').onclick = ()=>{const box=document.createElement('div');box.className='repeat';box.innerHTML='<input class="projeto-nome" placeholder="Nome do projeto"><textarea class="projeto-desc" placeholder="Descrição"></textarea><span class="remove-btn" onclick="this.parentElement.remove()">Remover</span>';projetosList.appendChild(box)};
-  document.getElementById('addLink').onclick = ()=>{const box=document.createElement('div');box.className='repeat';box.innerHTML='<input class="link-nome" placeholder="Descrição/Link"><span class="remove-btn" onclick="this.parentElement.remove()">Remover</span>';linksList.appendChild(box)};
+  document.getElementById('addFormacao').onclick = ()=>{const box=document.createElement('div');box.className='repeat';box.innerHTML='<input class="formacao-curso" placeholder="Curso"><input class="formacao-instituicao" placeholder="Instituição"><input class="formacao-ano" placeholder="Ano">';formacoesList.appendChild(box)};
+  document.getElementById('addExperiencia').onclick = ()=>{const box=document.createElement('div');box.className='repeat';box.innerHTML='<input class="exp-empresa" placeholder="Empresa"><input class="exp-cargo" placeholder="Cargo"><textarea class="exp-desc" placeholder="Descrição"></textarea>';experienciasList.appendChild(box)};
+  document.getElementById('addCurso').onclick = ()=>{const box=document.createElement('div');box.className='repeat';box.innerHTML='<input class="curso-nome" placeholder="Curso"><input class="curso-instituicao" placeholder="Instituição"><input class="curso-ano" placeholder="Ano">';cursosList.appendChild(box)};
 
   // Foto preview
   fotoInput.addEventListener("change", function(){
@@ -256,23 +251,16 @@ textarea{resize:vertical;min-height:80px;}
     reader.readAsDataURL(file);
   });
 
-  modeloSelect.onchange = ()=>{
-    if(modeloSelect.value.startsWith('premium')){
-      premiumSection.style.display='block';
-    } else {premiumSection.style.display='none'}
-    downloadPdf.disabled=false;
-  };
-
   closePreview.onclick = ()=>{previewModal.style.display='none'};
 
   watchAd.onclick = ()=>{
     if(modeloSelect.value==='gratuito'){downloadPdf.disabled=false;return;}
+    // Premium
     alert("Para usar este modelo premium, faça o pagamento R$4,99 via PIX ou assista ao anúncio.");
     setTimeout(()=>{adWatched=true;downloadPdf.disabled=false},1000);
   };
 
   btnGerar.onclick = ()=>{
-    // Aplicar valores
     pv_nome.innerText = nomeInput.value || "Seu Nome";
     pv_cargo.innerText = profissaoInput.value || "Profissão";
     pv_objetivo.innerText = objetivoInput.value || "";
@@ -282,18 +270,15 @@ textarea{resize:vertical;min-height:80px;}
     if(telefoneInput.value) contato += "☎ "+telefoneInput.value+"<br>";
     if(emailInput.value) contato += "✉ "+emailInput.value+"<br>";
     if(enderecoInput.value) contato += "📍 "+enderecoInput.value;
-    pv_contato.innerHTML = contato
+    pv_contato.innerHTML = contato;
+
     // Formações
     pv_formacoes.innerHTML='';
     document.querySelectorAll('#formacoesList .repeat').forEach(f=>{
       const curso=f.querySelector('.formacao-curso').value;
       const inst=f.querySelector('.formacao-instituicao').value;
       const ano=f.querySelector('.formacao-ano').value;
-      if(curso||inst||ano){
-        const div=document.createElement('div');div.className='pv-item';
-        div.innerHTML=`<strong>${curso}</strong><div style="font-size:13px;color:#475569">${inst} ${ano?("• "+ano):""}</div>`;
-        pv_formacoes.appendChild(div);
-      }
+      if(curso||inst||ano){const div=document.createElement('div');div.className='pv-item';div.innerHTML=`<strong>${curso}</strong><div style="font-size:13px;color:#475569">${inst} ${ano?("• "+ano):""}</div>`;pv_formacoes.appendChild(div);}
     });
 
     // Experiências
@@ -302,71 +287,35 @@ textarea{resize:vertical;min-height:80px;}
       const emp=exp.querySelector('.exp-empresa').value;
       const cargo=exp.querySelector('.exp-cargo').value;
       const desc=exp.querySelector('.exp-desc').value;
-      if(emp||cargo||desc){
-        const div=document.createElement('div');div.className='pv-item';
-        div.innerHTML=`<strong>${cargo} — ${emp}</strong><div style="font-size:13px;color:#475569;margin-top:6px">${desc.replace(/\n/g,'<br>')}</div>`;
-        pv_experiencias.appendChild(div);
-      }
+      if(emp||cargo||desc){const div=document.createElement('div');div.className='pv-item';div.innerHTML=`<strong>${cargo} — ${emp}</strong><div style="font-size:13px;color:#475569;margin-top:6px">${desc.replace(/\n/g,'<br>')}</div>`;pv_experiencias.appendChild(div);}
     });
 
-    // Cursos / Certificações
+    // Cursos
     pv_cursos.innerHTML='';
     document.querySelectorAll('#cursosList .repeat').forEach(c=>{
       const nome=c.querySelector('.curso-nome').value;
       const inst=c.querySelector('.curso-instituicao').value;
       const ano=c.querySelector('.curso-ano').value;
-      if(nome||inst||ano){
-        const div=document.createElement('div');div.className='pv-item';
-        div.innerHTML=`<strong>${nome}</strong><div style="font-size:13px;color:#475569">${inst} ${ano?("• "+ano):""}</div>`;
-        pv_cursos.appendChild(div);
-      }
+      if(nome||inst||ano){const div=document.createElement('div');div.className='pv-item';div.innerHTML=`<strong>${nome}</strong><div style="font-size:13px;color:#475569">${inst} ${ano?("• "+ano):""}</div>`;pv_cursos.appendChild(div);}
     });
 
-    // Premium Projetos
-    pv_projetos.innerHTML='';
-    const projetos = document.querySelectorAll('#projetosList .repeat');
-    if(projetos.length>0){
-      pvProjetosSection.style.display='block';
-      projetos.forEach(p=>{
-        const nome=p.querySelector('.projeto-nome').value;
-        const desc=p.querySelector('.projeto-desc').value;
-        if(nome||desc){
-          const div=document.createElement('div');div.className='pv-item';
-          div.innerHTML=`<strong>${nome}</strong><div style="font-size:13px;color:#475569">${desc.replace(/\n/g,'<br>')}</div>`;
-          pv_projetos.appendChild(div);
-        }
-      });
-    } else {pvProjetosSection.style.display='none';}
-
-    // Premium Links / Referências
-    pv_links.innerHTML='';
-    const links = document.querySelectorAll('#linksList .repeat');
-    if(links.length>0){
-      pvLinksSection.style.display='block';
-      links.forEach(l=>{
-        const txt=l.querySelector('.link-nome').value;
-        if(txt){
-          const div=document.createElement('div');div.className='pv-item';
-          div.innerHTML=`<a href="${txt}" target="_blank">${txt}</a>`;
-          pv_links.appendChild(div);
-        }
-      });
-    } else {pvLinksSection.style.display='none';}
-
-    // Idiomas (padrão)
     pv_idiomas.innerText="Português — Nativo";
-
     previewModal.style.display='flex';
   };
 
   // PDF download
   downloadPdf.onclick = async ()=>{
     if(!adWatched && modeloSelect.value!=='gratuito') return alert("Complete pagamento ou assista anúncio!");
-    const pdfSheet=document.getElementById('pdfSheet');
-    const pdfContent=document.getElementById('pdfContent');
-    const a4=document.getElementById('a4Sheet');
 
-    pdfContent.innerHTML=a4.outerHTML;
+    const pdfSheet=document.createElement('div');
+    pdfSheet.style.width="794px";
+    pdfSheet.style.height="1123px";
+    pdfSheet.style.position="absolute";
+    pdfSheet.style.left="-9999px";
+    pdfSheet.style.top="-9999px";
+    pdfSheet.innerHTML=document.getElementById('a4Sheet').outerHTML;
+    document.body.appendChild(pdfSheet);
+
     const canvas = await html2canvas(pdfSheet,{scale:2,useCORS:true});
     const img=canvas.toDataURL("image/png");
     const pdf=new jspdf.jsPDF("p","pt","a4");
@@ -374,8 +323,8 @@ textarea{resize:vertical;min-height:80px;}
     const h=pdf.internal.pageSize.getHeight();
     pdf.addImage(img,"PNG",0,0,w,h);
     pdf.save((nomeInput.value||"curriculo")+".pdf");
+    document.body.removeChild(pdfSheet);
   };
-
 })();
 </script>
 </body>
