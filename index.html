@@ -1,0 +1,288 @@
+<!doctype html>
+
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gerador de Currículo — Demo</title>
+  <style>
+    :root{--accent:#2563eb;--muted:#6b7280}
+    body{font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;margin:0;background:#f7fafc;color:#111}
+    .container{max-width:1000px;margin:32px auto;padding:20px;background:#fff;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,.08)}
+    h1{margin:0 0 12px;font-size:22px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+    input,textarea,select{width:100%;padding:10px;border:1px solid #e6e9ef;border-radius:8px;font-size:14px}
+    textarea{min-height:80px}
+    .row{display:flex;gap:12px}
+    .btn{background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+    .preview{border-left:1px dashed #e6e9ef;padding-left:18px}
+    .cv{background:#ffffff;padding:18px;border-radius:8px;border:1px solid #eef2ff}
+    .meta{font-size:13px;color:var(--muted)}
+    .ad-modal{position:fixed;inset:0;background:rgba(2,6,23,.6);display:flex;align-items:center;justify-content:center;padding:20px}
+    .ad-card{width:900px;max-width:100%;background:#fff;border-radius:10px;padding:16px}
+    .ad-controls{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:8px}
+    .small{font-size:13px;color:var(--muted)}
+    footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
+    @media(max-width:900px){.grid{grid-template-columns:1fr} .preview{border-left:none;border-top:1px dashed #e6e9ef;padding-top:18px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Gerador de Currículo — Demo</h1>
+    <p class="meta">Preencha os campos à esquerda. Para baixar o PDF você precisará assistir ao anúncio (simulado via vídeo do YouTube).</p><div class="grid">
+  <!-- Formulário -->
+  <div>
+    <div style="display:flex;gap:10px;margin-bottom:12px">
+      <input id="nome" placeholder="Nome completo" />
+      <input id="cargo" placeholder="Cargo/Objetivo" />
+    </div>
+
+    <label>Contato</label>
+    <div class="row" style="margin-bottom:12px">
+      <input id="email" placeholder="email@exemplo.com" />
+      <input id="telefone" placeholder="(11) 9XXXX-XXXX" />
+    </div>
+
+    <label>Resumo profissional</label>
+    <textarea id="resumo" placeholder="Resumo rápido sobre você..."></textarea>
+
+    <label>Experiência (adicione múltiplas separando por \n---\n)</label>
+    <textarea id="experiencia" placeholder="Empresa X — Cargo — 2020-2023\n- Responsabilidade 1\n---\nEmpresa Y — Cargo — 2018-2020\n- Responsabilidade A"></textarea>
+
+    <label>Educação (adicione múltiplas separando por \n---\n)</label>
+    <textarea id="educacao" placeholder="Universidade Z — Curso — 2015-2018\n---\nCurso Online — Plataforma — 2021"></textarea>
+
+    <label>Habilidades (separe por vírgula)</label>
+    <input id="habilidades" placeholder="Ex: Excel, PowerPoint, Atendimento ao cliente" />
+
+    <div style="display:flex;gap:10px;margin-top:10px">
+      <button class="btn" id="btnAtualizar">Atualizar pré-visualização</button>
+      <button class="btn" id="btnGerarPdf">Gerar PDF</button>
+      <button class="btn" id="btnBaixar" disabled>Baixar (bloqueado por anúncio)</button>
+    </div>
+
+    <div style="margin-top:12px">
+      <small class="small">Observação: este projeto é um exemplo. Em produção, integre com provedores de anúncios (AdMob / Google AdSense / parceiros de vídeo) para monetizar corretamente.</small>
+    </div>
+
+  </div>
+
+  <!-- Pré-visualização -->
+  <aside class="preview">
+    <h2 style="margin-top:0;font-size:18px">Pré-visualização</h2>
+    <div class="cv" id="previewCv">
+      <h3 id="pNome">Nome Completo</h3>
+      <div class="meta" id="pCargo">Cargo / Objetivo</div>
+      <div style="height:8px"></div>
+      <div class="meta"><strong>Contato:</strong> <span id="pContato">email@exemplo.com • (11) 9XXXX-XXXX</span></div>
+      <hr style="margin:10px 0" />
+      <div><strong>Resumo</strong>
+        <p id="pResumo" class="small">Resumo profissional aparecerá aqui.</p>
+      </div>
+      <div style="margin-top:8px"><strong>Experiência</strong>
+        <div id="pExperiencia" class="small"></div>
+      </div>
+      <div style="margin-top:8px"><strong>Educação</strong>
+        <div id="pEducacao" class="small"></div>
+      </div>
+      <div style="margin-top:8px"><strong>Habilidades</strong>
+        <div id="pHabilidades" class="small"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <button class="btn" id="btnSimularAd">Assistir anúncio (simulado)</button>
+    </div>
+
+  </aside>
+</div>
+
+<footer>Demo — gerador de currículo simples • Feito para testes</footer>
+
+  </div>  <!-- Modal do anúncio / vídeo -->  <div id="adModal" style="display:none" class="ad-modal">
+    <div class="ad-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong>Assista ao anúncio para liberar o download</strong>
+        <button id="fecharAd" style="background:none;border:none;font-size:16px;cursor:pointer">✕</button>
+      </div><div style="margin-top:12px">
+    <!-- Espaço do player YouTube. Em produção usar o player do provedor de anúncio. -->
+    <div id="player" style="width:100%;height:480px;max-height:60vh;background:#000"></div>
+  </div>
+
+  <div class="ad-controls">
+    <div class="small" id="adStatus">Aguardando reprodução...</div>
+    <button id="adCloseButton" class="btn" disabled>Fechar (só depois do fim do vídeo)</button>
+  </div>
+</div>
+
+  </div>  <!-- Bibliotecas externas: jsPDF para gerar PDF, YouTube IFrame API para detectar fim do vídeo -->  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>  <script>
+    // Helper para atualizar pré-visualização
+    function atualizaPreview(){
+      document.getElementById('pNome').textContent = document.getElementById('nome').value || 'Nome Completo';
+      document.getElementById('pCargo').textContent = document.getElementById('cargo').value || 'Cargo / Objetivo';
+      document.getElementById('pContato').textContent = (document.getElementById('email').value || 'email@exemplo.com') + ' • ' + (document.getElementById('telefone').value || '(11) 9XXXX-XXXX');
+      document.getElementById('pResumo').textContent = document.getElementById('resumo').value || 'Resumo profissional aparecerá aqui.';
+
+      // Experiência and educação: split by "---" blocks
+      const expRaw = document.getElementById('experiencia').value || '';
+      const eduRaw = document.getElementById('educacao').value || '';
+
+      const expHtml = expRaw.split(/\n---\n/).map(block => {
+        if(!block.trim()) return '';
+        return '<div style="margin-bottom:6px">' + block.replace(/\n/g,'<br>') + '</div>';
+      }).join('');
+
+      const eduHtml = eduRaw.split(/\n---\n/).map(block => block ? '<div style="margin-bottom:6px">'+block.replace(/\n/g,'<br>')+'</div>' : '').join('');
+
+      document.getElementById('pExperiencia').innerHTML = expHtml || '<span class="small">Nenhuma experiência adicionada.</span>';
+      document.getElementById('pEducacao').innerHTML = eduHtml || '<span class="small">Nenhuma educação adicionada.</span>';
+      document.getElementById('pHabilidades').textContent = document.getElementById('habilidades').value || 'Nenhuma habilidade adicionada.';
+    }
+
+    document.getElementById('btnAtualizar').addEventListener('click', (e)=>{e.preventDefault(); atualizaPreview();});
+
+    // Gerar PDF com jsPDF
+    const { jsPDF } = window.jspdf;
+    function gerarPdf(){
+      atualizaPreview();
+      const doc = new jsPDF({unit:'pt', format:'a4'});
+      const left = 40;
+      let y = 40;
+      doc.setFontSize(18);
+      doc.text(document.getElementById('nome').value || 'Nome Completo', left, y);
+      y += 24;
+      doc.setFontSize(12);
+      doc.text(document.getElementById('cargo').value || 'Cargo / Objetivo', left, y);
+      y += 18;
+      doc.setFontSize(10);
+      doc.text('Contato: ' + ((document.getElementById('email').value || '') + ' • ' + (document.getElementById('telefone').value || '')), left, y);
+      y += 18;
+      doc.setLineWidth(0.5);
+      doc.line(left, y, 560, y);
+      y += 12;
+
+      doc.setFontSize(12); doc.text('Resumo', left, y); y += 14;
+      doc.setFontSize(10);
+      doc.text(doc.splitTextToSize(document.getElementById('resumo').value || '', 520), left, y);
+      y += (doc.getTextDimensions({text:document.getElementById('resumo').value || ''}).h || 40) + 6;
+
+      // Experiências
+      doc.setFontSize(12); doc.text('Experiência', left, y); y += 14;
+      doc.setFontSize(10);
+      const expRaw = document.getElementById('experiencia').value || '';
+      const expBlocks = expRaw.split(/\n---\n/);
+      expBlocks.forEach(block=>{
+        const lines = doc.splitTextToSize(block, 520);
+        doc.text(lines, left, y);
+        y += (lines.length * 12) + 8;
+        if(y > 740){ doc.addPage(); y = 40; }
+      });
+
+      // Educação
+      doc.setFontSize(12); doc.text('Educação', left, y); y += 14;
+      doc.setFontSize(10);
+      const eduBlocks = document.getElementById('educacao').value.split(/\n---\n/);
+      eduBlocks.forEach(block=>{
+        const lines = doc.splitTextToSize(block, 520);
+        doc.text(lines, left, y);
+        y += (lines.length * 12) + 8;
+        if(y > 740){ doc.addPage(); y = 40; }
+      });
+
+      // Habilidades
+      doc.setFontSize(12); doc.text('Habilidades', left, y); y += 14;
+      doc.setFontSize(10);
+      doc.text((document.getElementById('habilidades').value || ''), left, y);
+
+      // Ao invocar gerarPdf, oferecemos salvar localmente (mas download real será bloqueado até assistir ao anúncio)
+      // Aqui apenas preparamos o blob para ser baixado quando liberado.
+      const pdfBlob = doc.output('blob');
+      window._lastPdfBlob = pdfBlob;
+      alert('PDF gerado em memória. Para baixar, clique em "Assistir anúncio" e depois em "Baixar" quando disponível.');
+    }
+
+    document.getElementById('btnGerarPdf').addEventListener('click', (e)=>{e.preventDefault(); gerarPdf();});
+
+    // Baixar: só quando anúncio foi assistido até o fim
+    function habilitarDownload(){
+      document.getElementById('btnBaixar').disabled = false;
+      document.getElementById('btnBaixar').textContent = 'Baixar PDF agora';
+    }
+
+    document.getElementById('btnBaixar').addEventListener('click', (e)=>{
+      e.preventDefault();
+      const blob = window._lastPdfBlob;
+      if(!blob){ alert('Primeiro gere o PDF clicando em "Gerar PDF".'); return; }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = (document.getElementById('nome').value || 'curriculo') + '.pdf';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+
+    // Simular o anúncio: abre modal com player YouTube e exige que o vídeo termine
+    document.getElementById('btnSimularAd').addEventListener('click', ()=>{ openAdModal(); });
+    document.getElementById('btnAtualizar').click();
+
+    // YouTube IFrame API setup
+    let player;
+    let adWatched = false;
+    function openAdModal(){
+      document.getElementById('adModal').style.display = 'flex';
+      document.getElementById('adStatus').textContent = 'Carregando anúncio...';
+      document.getElementById('adCloseButton').disabled = true;
+      // if player already exists, play
+      if(player){ player.playVideo(); return; }
+      // otherwise, create player after API carregada
+      if(window.YT && window.YT.Player){ createPlayer(); return; }
+      // load script dynamically
+      const tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(tag);
+      // YouTube will call onYouTubeIframeAPIReady automatically
+    }
+
+    function closeAdModal(){
+      document.getElementById('adModal').style.display = 'none';
+      // pause player
+      if(player){ player.stopVideo(); }
+    }
+    document.getElementById('fecharAd').addEventListener('click', closeAdModal);
+    document.getElementById('adCloseButton').addEventListener('click', ()=>{ closeAdModal(); });
+
+    // Função requerida pelo IFrame API
+    function onYouTubeIframeAPIReady(){ createPlayer(); }
+    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+
+    function createPlayer(){
+      // Exemplo de vídeo público curto; em produção, usar provedores de anúncios
+      const videoId = 'YE7VzlLtp-4'; // vídeo de exemplo (música) — substitua por um anúncio real no ambiente de produção
+      player = new YT.Player('player', {
+        height: '480', width: '100%', videoId: videoId,
+        playerVars: { 'playsinline': 1, 'controls': 1 },
+        events: {
+          'onReady': (e)=>{ e.target.playVideo(); document.getElementById('adStatus').textContent = 'Anúncio em reprodução...'; },
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerStateChange(event){
+      const statusEl = document.getElementById('adStatus');
+      if(event.data == YT.PlayerState.PLAYING){ statusEl.textContent = 'Anúncio em reprodução...'; }
+      if(event.data == YT.PlayerState.PAUSED){ statusEl.textContent = 'Anúncio pausado. Continue para liberar o download.'; }
+      if(event.data == YT.PlayerState.ENDED){
+        statusEl.textContent = 'Anúncio assistido até o fim. Download liberado!';
+        adWatched = true;
+        document.getElementById('adCloseButton').disabled = false;
+        habilitarDownload();
+      }
+    }
+
+    // Também permitimos usuário clicar no botão "Assistir anúncio (simulado)" que abre modal com player
+    document.getElementById('btnSimularAd').addEventListener('click', ()=>{ openAdModal(); });
+
+    // Quando fechar modal sem assistir, não libera nada
+
+  </script></body>
+</html>
