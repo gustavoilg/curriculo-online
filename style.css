@@ -1,116 +1,125 @@
-/* RESET */
+/* === Reset === */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
-/* FUNDO DO SITE */
 body {
-    background: #f6f7f9;
-    padding: 20px;
+  background: #f3f4f6;
+  display: flex;
+  justify-content: center;
+  padding: 40px 10px;
 }
 
-/* CONTAINER CENTRAL */
+/* === Container central === */
 .container {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 10px;
+  width: 100%;
+  max-width: 760px;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 14px;
+  box-shadow: 0 3px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* TÍTULOS */
-.titulo-principal {
-    font-size: 28px;
-    font-weight: 800;
-    margin-bottom: 8px;
-    text-align: center;
+/* Título */
+.container h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
-.subtitulo {
-    text-align: center;
-    color: #606060;
-    margin-bottom: 25px;
+/* === Formulário === */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }
 
-/* SEÇÕES DO FORMULÁRIO */
-section {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-}
-
-/* TÍTULOS DE SEÇÃO */
-.section-title {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.section-title .num {
-    background: #e8edf4;
-    color: #2d4b73;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 700;
-}
-
-/* LABELS */
+/* Labels */
 label {
-    font-weight: 600;
-    margin-bottom: 4px;
-    display: block;
-    color: #303030;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
+  display: block;
 }
 
-/* INPUTS */
-input, select, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #d5d8df;
-    border-radius: 8px;
-    margin-bottom: 18px;
-    background: #fff;
-    font-size: 16px;
+/* Inputs */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #111827;
+  background: #f9fafb;
+  transition: all 0.2s;
 }
 
-/* BOTÃO ADICIONAR */
-.add-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 15px;
-    color: #2c5282;
-    cursor: pointer;
-    margin-bottom: 18px;
+input:focus,
+textarea:focus {
+  border-color: #6366f1;
+  background: #fff;
+  outline: none;
 }
 
-.add-btn i {
-    background: #e2e8f0;
-    padding: 6px;
-    border-radius: 6px;
-    font-weight: 700;
+/* Botões */
+button {
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-/* BOTÃO PRINCIPAL */
-button.gerar {
-    width: 100%;
-    padding: 18px;
-    background: #48bb78;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
+.btn-primary {
+  background: #4f46e5;
+  color: white;
+  transition: 0.2s;
 }
 
-button.gerar:hover {
-    background: #3fa86b;
+.btn-primary:hover {
+  background: #4338ca;
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: #111827;
+  transition: 0.2s;
+}
+
+.btn-secondary:hover {
+  background: #d1d5db;
+}
+
+/* === Seções organizadas === */
+.section {
+  background: #f9fafb;
+  padding: 18px 20px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #1f2937;
+}
+
+/* === A4 Preview (quando criarmos a pré-visualização) === */
+#preview {
+  width: 21cm;
+  min-height: 29.7cm;
+  background: white;
+  margin: 20px auto;
+  padding: 40px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.15);
+  display: none;
 }
