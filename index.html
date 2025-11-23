@@ -262,7 +262,24 @@
           contExp.appendChild(c);
         }
       });
+// FOTO DO CURRÍCULO
+const inputFoto = document.getElementById('foto');
+const pvFoto = document.getElementById('pv_foto');
 
+if (inputFoto.files && inputFoto.files[0]) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    pvFoto.style.backgroundImage = `url(${e.target.result})`;
+    pvFoto.style.backgroundSize = "cover";
+    pvFoto.style.backgroundPosition = "center";
+    pvFoto.innerText = ""; // remove o texto FOTO
+  };
+  reader.readAsDataURL(inputFoto.files[0]);
+} else {
+  // se não tiver foto
+  pvFoto.style.backgroundImage = "none";
+  pvFoto.innerText = "FOTO";
+}
       // idiomas (simple fallback)
       document.getElementById('pv_idiomas').innerText = 'Português: Nativo';
     }
